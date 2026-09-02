@@ -4,7 +4,7 @@
 Sistemas de Informacion para la Gestion · Paralelo 100 · 2026-2
 Profesores: Jose Miguel Gonzalez Paul · Jose Luis Saez Tamayo
 
-## 1. Que PYME y que problema
+## 1. Qué PYME y qué problema
 
 **IMELSE** es una empresa de servicios de mantenimiento eléctrico industrial
 ubicada en Av. General Saavedra 1217, Independencia, Region Metropolitana.
