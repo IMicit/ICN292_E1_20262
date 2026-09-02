@@ -1,15 +1,15 @@
 # SIG para IMELSE — ICN-292, Entrega 1
 
-**Universidad Tecnica Federico Santa Maria — Departamento de Industrias**
-Sistemas de Informacion para la Gestion · Paralelo [###] · 2026-2
+**Universidad Técnica Federico Santa Maria — Departamento de Industrias**
+Sistemas de Informacion para la Gestion · Paralelo 100 · 2026-2
 Profesores: Jose Miguel Gonzalez Paul · Jose Luis Saez Tamayo
 
 ## 1. Que PYME y que problema
 
-**IMELSE** es una empresa de servicios de mantenimiento electrico industrial
+**IMELSE** es una empresa de servicios de mantenimiento eléctrico industrial
 ubicada en Av. General Saavedra 1217, Independencia, Region Metropolitana.
-Presta servicios de mantencion preventiva y correctiva a tableros electricos,
-termografia, bancos de condensadores, sistemas fotovoltaicos y mediciones de
+Presta servicios de mantencion preventiva y correctiva a tableros eléctricos,
+termografáa, bancos de condensadores, sistemas fotovoltaicos y mediciones de
 calidad de energia, a clientes del retail como Unimarc, Santa Isabel y Mall Vivo.
 
 **Problema:** [una frase medible — completar tras entrevista del 03-09-2026]
