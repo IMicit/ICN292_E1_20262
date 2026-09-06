@@ -108,7 +108,7 @@ conexión, no en el equipo del cliente.
 |---|---|---|---|
 | 1 | Captura del sitio web imelse.cl (identificación, servicios, clientes) | [01/09/2026] | `assets/ev-01-sitio.png` |
 | 2 | Acta de entrevista firmada por el Gerente de Operaciones | [03/09/2026] | `assets/ev-02-acta.pdf` |
-| 3 | Ficha de checklist de mantención en uso | [03/09/2026] | `assets/ev-03-ficha-checklist.png` |
+| 3 | Ficha de checklist de mantención en uso | [03/09/2026] | `assets/ev-05-fichas-checklist.pdf` |
 | 4 | Hoja de registro de tableros con termografía | [03/09/2026] | `assets/ev-04-registro-tableros.png` |
 | 5 | Transcripción completa de la entrevista | [05/09/2026] | `docs/04-transcripción-entrevista.pdf` |
 | 6 | Registro fotográfico de la visita | [06/09/2026] | `assets/ev-06-visita.pdf` |
