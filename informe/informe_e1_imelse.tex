@@ -1,0 +1,497 @@
+% ============================================================
+%  ICN-292 · Sistemas de Información para la Gestión · 2026-2
+%  Entrega 1 (E1) — Propuesta SIG para una PYME
+%  Caso: IMELSE
+%
+%  Compilar con: pdflatex (dos veces, por el índice y las refs)
+%  Recomendado: Overleaf
+%
+%  ESTRUCTURA OBLIGATORIA (secciones A–G del enunciado).
+%  No cambiar el orden ni los títulos: el corrector revisa por ellos.
+% ============================================================
+
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting]{babel}   % en Overleaf funciona; si falla localmente, comentar
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{pdflscape}      % páginas apaisadas para los BPMN
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{azulusm}{RGB}{0,51,102}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize ICN-292 · Entrega 1 · IMELSE}
+\rhead{\footnotesize \thepage\ / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\captionsetup{font=small,labelfont=bf}
+\setlist{itemsep=2pt,parsep=0pt}
+
+% Marcador de posición: escribir \ph{texto} donde falte contenido.
+% Al terminar el informe, buscar "\ph{" para verificar que no quede ninguno.
+\newcommand{\ph}[1]{\textit{\textcolor{gray}{[#1]}}}
+
+% ---------- Datos editables ----------
+\newcommand{\paralelo}{P\#\#\#}
+\newcommand{\repo}{https://github.com/IMicit/ICN292\_T3\_20262}
+% -------------------------------------
+
+\begin{document}
+
+% ============================================================
+% A. PORTADA Y FICHA DEL EQUIPO
+% ============================================================
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Large\bfseries Propuesta de Sistema de Información para la Gestión}\\[0.4cm]
+{\Large Trazabilidad de mantención preventiva de tableros eléctricos}\\[0.3cm]
+{\large IMELSE}\\[1.5cm]
+
+\rule{\textwidth}{0.8pt}\\[0.4cm]
+{\large Entrega 1 (E1)}\\[0.2cm]
+{\normalsize ICN-292 Sistemas de Información para la Gestión · \paralelo{} · Segundo Semestre 2026}\\[0.2cm]
+\rule{\textwidth}{0.8pt}\\[1.5cm]
+
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Nombre} & \textbf{RUT} & \textbf{Rol en el equipo} \\
+\midrule
+Javier Ignacio Bravo Campos & 21.330.540-9 & \ph{rol} \\
+Nombre 2 & \ph{RUT} & \ph{rol} \\
+Nombre 3 & \ph{RUT} & \ph{rol} \\
+Nombre 4 & \ph{RUT} & \ph{rol} \\
+Nombre 5 & \ph{RUT} & \ph{rol} \\
+\bottomrule
+\end{tabular}
+
+\vspace{1.2cm}
+\textbf{Repositorio GitHub:}\\
+\url{\repo}
+
+\vfill
+{\small Universidad Técnica Federico Santa María · Departamento de Industrias · Campus Vitacura\\
+Profesores: José Miguel González Paul · José Luis Sáez Tamayo\\
+Fecha de entrega: 12 de septiembre de 2026}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+% B. PYME Y PROBLEMA (EVIDENCIA)
+% ============================================================
+\section{PYME y problema}
+
+\subsection{Identificación de la PYME}
+
+% Nombre, rubro, tamaño aproximado, ubicación. Ver docs/00-caso-pyme.md
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{4.5cm}p{10cm}@{}}
+\toprule
+\textbf{Campo} & \textbf{Dato} \\
+\midrule
+Nombre & IMELSE \\
+Razón social / RUT & \ph{completar} \\
+Rubro & Servicios de mantenimiento eléctrico industrial, foco retail \\
+Ubicación & Av. General Saavedra 1217, Independencia, Región Metropolitana \\
+Dotación & 24 personas (14 fijas, 10 estudiantes en formación dual) \\
+Clientes principales & SMU (Unimarc), Cencosud, Falabella \\
+\bottomrule
+\end{tabular}
+\caption{Identificación de la empresa}
+\end{table}
+
+\paragraph{Justificación del alcance PYME.}
+% Por qué 24 personas y el acotamiento al contrato SMU califican como alcance PYME.
+\ph{texto}
+
+\subsection{Evidencia de existencia}
+
+% Enlaces fechados + referencia a las capturas numeradas del anexo + acta de entrevista.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}clll@{}}
+\toprule
+\textbf{N°} & \textbf{Evidencia} & \textbf{Fecha} & \textbf{Referencia} \\
+\midrule
+1 & Sitio web institucional & \ph{fecha} & Anexo, Figura X \\
+2 & Acta de entrevista firmada & \ph{fecha} & Anexo, Figura X \\
+3 & Ficha de checklist en uso (anonimizada) & \ph{fecha} & Anexo, Figura X \\
+4 & Hoja de registro de tableros (anonimizada) & \ph{fecha} & Anexo, Figura X \\
+5 & Transcripción de la entrevista & \ph{fecha} & \texttt{docs/anexo-entrevista.md} \\
+\bottomrule
+\end{tabular}
+\caption{Evidencia verificable del caso}
+\end{table}
+
+\paragraph{Entrevista.}
+% Fecha, lugar, nombre y cargo del entrevistado, autorización de uso académico.
+\ph{texto}
+
+\paragraph{Nota de confidencialidad.}
+Los documentos operativos facilitados por la empresa se incorporan anonimizados:
+se ocultaron nombres y RUT de trabajadores, códigos y direcciones de locales del
+cliente corporativo y referencias a condiciones comerciales.
+
+\subsection{Problema de negocio}
+
+% UNA FRASE MEDIBLE + impacto en tiempo, costo, error y servicio.
+
+\begin{quote}
+\itshape
+\ph{Enunciado del problema en una frase medible}
+\end{quote}
+
+\paragraph{Manifestaciones.}
+\begin{enumerate}[label=P\arabic*.,leftmargin=*]
+  \item \ph{manifestación}
+  \item \ph{manifestación}
+  \item \ph{manifestación}
+  \item \ph{manifestación}
+  \item \ph{manifestación}
+  \item \ph{manifestación}
+\end{enumerate}
+
+\paragraph{Impacto.}
+% Tabla con dimensiones: servicio, costo, tiempo, riesgo, control.
+\ph{tabla}
+
+\paragraph{Intentos previos de solución.}
+% Los dos mecanismos ensayados por la empresa y por qué fallaron.
+% Este párrafo es el que justifica que la solución deba forzar el registro.
+\ph{texto}
+
+\subsection{Objetivo del SIG propuesto}
+
+% Qué decisión u operación mejora. Concreto, no genérico.
+\ph{texto}
+
+% ============================================================
+% C. REQUERIMIENTOS DESDE CERO
+% ============================================================
+\section{Requerimientos}
+
+\subsection{Actores y roles}
+% Humanos y sistemas externos.
+\ph{tabla}
+
+\subsection{Alcance}
+\subsubsection*{Dentro del alcance}
+\begin{itemize}
+  \item \ph{ítem}
+\end{itemize}
+
+\subsubsection*{Fuera del alcance}
+% Tabla con exclusión + justificación. Muestra que hubo decisión, no olvido.
+\ph{tabla}
+
+\subsection{Requisitos funcionales}
+
+% Mínimo 8. Priorizados con MoSCoW y trazados al problema (columna Origen).
+
+\begin{longtable}{@{}p{1.4cm}p{8.4cm}p{1.8cm}p{1.6cm}p{1.4cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Requisito} & \textbf{Actor} & \textbf{Prioridad} & \textbf{Origen} \\
+\midrule
+\endhead
+RF-01 & \ph{requisito} & \ph{actor} & M & P\ph{n} \\
+RF-02 & \ph{requisito} & \ph{actor} & M & P\ph{n} \\
+% ... completar desde docs/01-requerimientos.md
+\bottomrule
+\caption{Requisitos funcionales priorizados (MoSCoW)}
+\end{longtable}
+
+\subsection{Requisitos no funcionales}
+
+% Mínimo 5. Cada uno con su origen justificado, no genéricos.
+
+\begin{longtable}{@{}p{1.6cm}p{8.2cm}p{2.4cm}p{1.6cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Requisito} & \textbf{Categoría} & \textbf{Prioridad} \\
+\midrule
+\endhead
+RNF-01 & \ph{requisito} & \ph{categoría} & M \\
+\bottomrule
+\caption{Requisitos no funcionales}
+\end{longtable}
+
+\subsection{Trazabilidad problema $\rightarrow$ requisito}
+% Tabla que conecta cada manifestación P1–P6 con los requisitos que la atacan.
+% Es lo que demuestra que los requisitos no salieron de la nada.
+\ph{tabla}
+
+% ============================================================
+% D. PROCESOS BPMN
+% ============================================================
+\section{Modelado de procesos}
+
+\subsection{Alcance del modelo}
+
+El modelo as-is incluye la compuerta inicial de tipo de trabajo con sus tres ramas
+para situar el proceso dentro de la operación completa de IMELSE. El modelado en
+profundidad y el rediseño se acotan a la rama de \textbf{mantención preventiva bajo
+contrato}, coherente con el alcance declarado en la sección anterior.
+
+Por su extensión, el proceso as-is se presenta en tres figuras. El archivo fuente
+completo en formato Bizagi está disponible en \texttt{assets/} del repositorio.
+
+\subsection{Proceso as-is}
+
+\begin{landscape}
+\begin{figure}[p]
+  \centering
+  % \includegraphics[width=\linewidth]{assets/bpmn-asis-1.png}
+  \caption{Proceso as-is (1 de 3): recepción de la orden y despacho de la cuadrilla}
+  \label{fig:asis1}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  % \includegraphics[width=\linewidth]{assets/bpmn-asis-2.png}
+  \caption{Proceso as-is (2 de 3): preparación de materiales y ejecución en terreno}
+  \label{fig:asis2}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  % \includegraphics[width=\linewidth]{assets/bpmn-asis-3.png}
+  \caption{Proceso as-is (3 de 3): cierre, informe y bucles de re-trabajo}
+  \label{fig:asis3}
+\end{figure}
+\end{landscape}
+
+\paragraph{Puntos críticos identificados.}
+% Referirse a las figuras por número: "como muestra la Figura \ref{fig:asis3}...".
+\ph{texto}
+
+\subsection{Proceso to-be}
+
+\begin{landscape}
+\begin{figure}[p]
+  \centering
+  % \includegraphics[width=\linewidth]{assets/bpmn-tobe.png}
+  \caption{Proceso to-be con la intervención del SIG}
+  \label{fig:tobe}
+\end{figure}
+\end{landscape}
+
+\subsection{Explicación de las mejoras}
+
+% El enunciado pide explícitamente estas tres dimensiones.
+
+\paragraph{Qué se automatiza.} \ph{texto}
+
+\paragraph{Qué se controla.} \ph{texto}
+
+\paragraph{Qué se mide.} \ph{texto}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{7cm}cc@{}}
+\toprule
+\textbf{Elemento del modelo} & \textbf{as-is} & \textbf{to-be} \\
+\midrule
+Eventos de espera & \ph{n} & \ph{n} \\
+Eventos de término & \ph{n} & \ph{n} \\
+Bucles de re-trabajo & \ph{n} & \ph{n} \\
+Carriles con actividad & \ph{n} & \ph{n} \\
+Latencia del registro & \ph{n} h & \ph{n} h \\
+\bottomrule
+\end{tabular}
+\caption{Comparación estructural entre el as-is y el to-be}
+\end{table}
+
+% ============================================================
+% E. MODELO DE DATOS PRELIMINAR
+% ============================================================
+\section{Modelo de datos preliminar}
+
+\begin{landscape}
+\begin{figure}[p]
+  \centering
+  % \includegraphics[width=\linewidth]{assets/er-preliminar.png}
+  \caption{Modelo entidad-relación preliminar}
+  \label{fig:er}
+\end{figure}
+\end{landscape}
+
+\subsection{Entidades y claves}
+% Descripción de cada entidad central + PK candidatas.
+% Justificar la elección de PK de Tablero (natural compuesta vs. surrogate).
+\ph{tabla}
+
+\subsection{Trazabilidad proceso $\leftrightarrow$ datos}
+
+% ESTA TABLA ES LO QUE PIDE LA RÚBRICA. No omitirla.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{6cm}p{8.5cm}@{}}
+\toprule
+\textbf{Tarea del to-be} & \textbf{Entidades que lee o escribe} \\
+\midrule
+\ph{tarea} & \ph{entidades} \\
+\bottomrule
+\end{tabular}
+\caption{Cómo el modelo de datos sostiene el proceso modelado}
+\end{table}
+
+\subsection{Decisiones y supuestos del modelo}
+% Qué se dejó fuera y por qué (p. ej. la entidad Informe).
+\ph{texto}
+
+% ============================================================
+% F. ARQUITECTURA LÓGICA Y STACK
+% ============================================================
+\section{Arquitectura lógica y stack tentativo}
+
+\subsection{Componentes lógicos}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{3.2cm}p{5.5cm}p{6cm}@{}}
+\toprule
+\textbf{Capa} & \textbf{Función} & \textbf{Realización en el caso} \\
+\midrule
+Captura de datos & \ph{función} & \ph{realización} \\
+Persistencia & \ph{función} & \ph{realización} \\
+Analítica / KPI & \ph{función} & \ph{realización} \\
+Interfaz & \ph{función} & \ph{realización} \\
+\bottomrule
+\end{tabular}
+\caption{Arquitectura lógica por capas}
+\end{table}
+
+% Opcional: diagrama de componentes
+% \begin{figure}[h]\centering
+%   \includegraphics[width=0.85\linewidth]{assets/arquitectura.png}
+%   \caption{Diagrama de componentes}
+% \end{figure}
+
+\subsection{Stack tentativo para la Entrega 2}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{3.2cm}p{5cm}p{6.5cm}@{}}
+\toprule
+\textbf{Componente} & \textbf{Tecnología y versión} & \textbf{Justificación} \\
+\midrule
+Lenguaje / framework & \ph{tecnología} & \ph{justificación} \\
+Base de datos & \ph{tecnología} & \ph{justificación} \\
+Almacenamiento de imágenes & \ph{tecnología} & \ph{justificación} \\
+Interfaz & \ph{tecnología} & \ph{justificación} \\
+\bottomrule
+\end{tabular}
+\caption{Stack tentativo}
+\end{table}
+
+\subsection{Reproducibilidad en localhost}
+% Pasos que el README documentará: clonar, instalar, migrar, cargar datos de prueba, levantar.
+\ph{texto}
+
+\subsection{Alcance del prototipo}
+% Declarar explícitamente qué queda fuera del prototipo de E2 (p. ej. operación offline)
+% y por qué. Es preferible declararlo a prometerlo y no cumplirlo.
+\ph{texto}
+
+% ============================================================
+% G. PLAN DE ENTREGA 2 Y RIESGOS
+% ============================================================
+\section{Plan de Entrega 2 y riesgos}
+
+\subsection{Hitos y responsables}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}clp{5.5cm}p{3cm}@{}}
+\toprule
+\textbf{N°} & \textbf{Fecha} & \textbf{Hito} & \textbf{Responsable} \\
+\midrule
+1 & \ph{fecha} & \ph{hito} & \ph{nombre} \\
+\bottomrule
+\end{tabular}
+\caption{Hitos de la Entrega 2}
+\end{table}
+
+\subsection{Riesgos del proyecto}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{5.5cm}p{2cm}p{6.5cm}@{}}
+\toprule
+\textbf{Riesgo} & \textbf{Impacto} & \textbf{Mitigación} \\
+\midrule
+\ph{riesgo} & \ph{alto/medio/bajo} & \ph{mitigación} \\
+\bottomrule
+\end{tabular}
+\caption{Riesgos identificados}
+\end{table}
+
+\subsection{Riesgos de datos personales (Ley 21.719)}
+
+% Sección que casi nadie desarrolla bien. Conviene estructurarla así:
+
+\paragraph{Datos personales tratados.} \ph{qué datos y de quién}
+
+\paragraph{Finalidad declarada.} \ph{para qué se tratan}
+
+\paragraph{Base de licitud.} \ph{fundamento del tratamiento}
+
+\paragraph{Minimización.} \ph{qué datos se decide NO capturar y por qué}
+
+\paragraph{Conservación.} \ph{cuánto tiempo y con qué justificación}
+
+\paragraph{Riesgo específico.} % El sistema registra desempeño individual de trabajadores.
+\ph{texto}
+
+\paragraph{Medidas en el prototipo.} \ph{datos ficticios, control de acceso, etc.}
+
+% ============================================================
+% ANEXOS
+% ============================================================
+\newpage
+\appendix
+\section{Anexos}
+
+\subsection{Evidencia fotográfica}
+% Capturas numeradas: sitio web, acta, fichas anonimizadas, registro de la visita.
+
+% \begin{figure}[h]\centering
+%   \includegraphics[width=0.8\linewidth]{assets/ev-01-sitio.png}
+%   \caption{Evidencia 1: sitio web institucional, consultado el \ph{fecha}}
+% \end{figure}
+
+\subsection{Estructura del repositorio}
+\begin{verbatim}
+README.md
+docs/  00-caso-pyme.md  01-requerimientos.md  02-bpmn.md  03-er-preliminar.md
+assets/
+informe/
+\end{verbatim}
+
+\end{document}
