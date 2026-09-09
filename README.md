@@ -12,9 +12,9 @@ Presta servicios de mantención preventiva y correctiva a tableros eléctricos,
 termografáa, bancos de condensadores, sistemas fotovoltaicos y mediciones de
 calidad de energia, a clientes del retail como Unimarc, Santa Isabel y Mall Vivo.
 
-**Problema:** [una frase medible — completar tras entrevista del 03-09-2026]
+**Problema:** Cerca de un 17% de las mantenciones preventivas resultan incompletas sin la detección de potenciales problemas de forma oportuna, ya que el cumplimiento se declara en un checklist en hojas de papel sin evidencia verificable por el tablero que luego llegan a la oficina dentro de 16 a 24 horas en promedio. El resultado de esto es que las fallas por no mantención aumentan y la empresa debe llevar a cabo visitas de emergencia que deben ser cubiertas por la misma. Dentro de los principales artículos donde ocurre es en los tableros eléctricos que pueden pasar uno o más ciclos bimensuales sin revisión, ocasionando una falla eléctrica que debe ser cubierta por un contrato que cuenta con un seguro de 27.500 UF.
 
-**Objetivo del SIG:** [que decision u operacion mejora]
+**Objetivo del SIG:** Reemplazar el registro en papel por un registro digital, guiado y evidenciado que se genera durante la ejecución, de modo que la gerencia pueda verificar la cobertura de tableros de cada visita antes de su cierre junto a las debidas y necesarias pruebas que respalden esto.
 
 Detalle completo y evidencia en [`docs/00-caso-pyme.md`](docs/00-caso-pyme.md).
 
