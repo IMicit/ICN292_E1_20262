@@ -298,11 +298,45 @@ completo en formato Bizagi está disponible en \texttt{assets/} del repositorio.
 
 % El enunciado pide explícitamente estas tres dimensiones.
 
-\paragraph{Qué se automatiza.} \ph{texto}
+\paragraph{Qué se automatiza.} La generación de la visita desde el calendario del
+contrato, el aviso de servicio al cliente, la marca de fecha, hora y usuario de cada
+tablero intervenido, la generación del informe y su envío al cliente. En el proceso
+actual todas estas dependen del retorno físico de la cuadrilla a las oficinas.
 
-\paragraph{Qué se controla.} \ph{texto}
+\paragraph{Qué se controla.} La cobertura de tableros, mediante una compuerta previa
+al cierre que compara el levantamiento del local contra los tableros efectivamente
+registrados en la visita. La visita no puede cerrarse con tableros sin intervenir
+salvo declaración explícita de pendiente con motivo. El control se ejerce en el
+momento y no en la revisión posterior, que es precisamente lo que fallaron los dos
+intentos previos de la empresa.
 
-\paragraph{Qué se mide.} \ph{texto}
+\paragraph{Qué se mide.} Tres variables que hoy no existen como dato: cobertura de
+tableros por visita, tasa de mantención completa y latencia entre la ejecución en
+terreno y la disponibilidad del registro en oficina.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Elemento del modelo} & \textbf{as-is} & \textbf{to-be} \\
+\midrule
+Tareas & 31 & 20 + 1 subproceso \\
+Compuertas (decisiones / uniones) & 9 (5 / 4) & 6 (3 / 3) \\
+Eventos intermedios & 6 & 2 \\
+\quad de ellos, eventos de espera & 3 & 2 \\
+Eventos de término & 1 & 2 \\
+Bucles de re-trabajo & 2 & 0 \\
+Carriles con actividad & 3 & 4 \\
+Tareas en el carril del sistema & 0 & 7 \\
+Puntos de control de cobertura & 0 & 1 \\
+Asociaciones de datos & 4 & 7 \\
+Latencia del registro & 16--24 h & inmediata \\
+\bottomrule
+\end{tabular}
+\caption{Comparación estructural entre el as-is y el to-be, sobre la ruta de
+mantención preventiva bajo contrato.}
+\label{tab:comparacion-asis-tobe}
+\end{table}
 
 \begin{table}[h]
 \centering
@@ -324,6 +358,7 @@ Latencia del registro & \ph{n} h & \ph{n} h \\
 % ============================================================
 % E. MODELO DE DATOS PRELIMINAR
 % ============================================================
+\newpage
 \section{Modelo de datos preliminar}
 
 \begin{landscape}
