@@ -8,6 +8,8 @@
 %
 %  ESTRUCTURA OBLIGATORIA (secciones A–G del enunciado).
 %  No cambiar el orden ni los títulos: el corrector revisa por ellos.
+%
+%  PENDIENTES: buscar "\ph{" para localizar todo lo que falta completar.
 % ============================================================
 
 \documentclass[11pt,letterpaper]{article}
@@ -44,7 +46,7 @@
 \newcommand{\ph}[1]{\textit{\textcolor{gray}{[#1]}}}
 
 % ---------- Datos editables ----------
-\newcommand{\paralelo}{P\#\#\#}
+\newcommand{\paralelo}{P100}
 \newcommand{\repo}{https://github.com/IMicit/ICN292\_T3\_20262}
 % -------------------------------------
 
@@ -66,15 +68,15 @@
 {\normalsize ICN-292 Sistemas de Información para la Gestión · Paralelo 100 · Segundo Semestre 2026}\\[0.2cm]
 \rule{\textwidth}{0.8pt}\\[1.5cm]
 
-\begin{tabular}{@{}lll@{}}
+\begin{tabular}{@{}llll@{}}
 \toprule
-\textbf{Nombre} & \textbf{RUT} & \textbf{Rol en el equipo} \\
+\textbf{Nombre} & \textbf{RUT} & \textbf{ROL USM} & \textbf{Rol en el equipo} \\
 \midrule
-Javier Bravo & 21.330.540-9 & 202360638-3 \\
-Benjamín Eliz & 21803009-2 & 202360632-4 \\
-Cristóbal Muñoz & 21657535-0 & 202360603-0 \\
-Nicolás Oyarzún & 21762466-5 & 202404599-7 \\
-Nicolás Soto & 22083026-8 & 202460585-2 \\
+Javier Bravo    & 21.330.540-9 & 202360638-3 & \ph{rol} \\
+Benjamín Eliz   & 21.803.009-2 & 202360632-4 & \ph{rol} \\
+Cristóbal Muñoz & 21.657.535-0 & 202360603-0 & \ph{rol} \\
+Nicolás Oyarzún & 21.762.466-5 & 202404599-7 & \ph{rol} \\
+Nicolás Soto    & 22.083.026-8 & 202460585-2 & \ph{rol} \\
 \bottomrule
 \end{tabular}
 
@@ -98,8 +100,6 @@ Fecha de entrega: 12 de septiembre de 2026}
 
 \subsection{Identificación de la PYME}
 
-% Nombre, rubro, tamaño aproximado, ubicación. Ver docs/00-caso-pyme.md
-
 \begin{table}[h]
 \centering
 \small
@@ -107,24 +107,35 @@ Fecha de entrega: 12 de septiembre de 2026}
 \toprule
 \textbf{Campo} & \textbf{Dato} \\
 \midrule
-Nombre & IMELSE \\
-Razón social / RUT & \ph{completar} \\
+Nombre de fantasía & IMELSE \\
+Razón social / RUT & 76.046.641-7 \\
 Rubro & Servicios de mantenimiento eléctrico industrial, foco retail \\
+Constitución & Persona natural desde 2000; sociedad de responsabilidad limitada desde 2009 \\
 Ubicación & Av. General Saavedra 1217, Independencia, Región Metropolitana \\
-Dotación & 24 personas (14 fijas, 10 estudiantes en formación dual) \\
-Clientes principales & SMU (Unimarc), Cencosud, Falabella \\
+Contacto & (56-2) 2732 3122 · contacto@imelse.cl · \url{https://imelse.cl} \\
+Gerente General & Yuri Rojas \\
+Dotación & 24 personas: 14 fijas y 10 estudiantes en formación dual (convenio SOFOFA) \\
+Distribución & 4 en oficina, 20 en terreno \\
+Clientes principales & SMU (Unimarc, bajo contrato), Cencosud (Jumbo, Santa Isabel), Falabella (Tottus, Sodimac) \\
+Cobertura geográfica & Región Metropolitana: Tiltil por el norte, Linderos por el sur, Talagante por el poniente \\
 \bottomrule
 \end{tabular}
 \caption{Identificación de la empresa}
 \end{table}
 
 \paragraph{Justificación del alcance PYME.}
-% Por qué 24 personas y el acotamiento al contrato SMU califican como alcance PYME.
-\ph{texto}
+IMELSE cuenta con una dotación de 24 personas, de las cuales 14 corresponden a
+personal fijo y 10 a estudiantes en formación dual, y opera con una estructura
+administrativa de cuatro personas en oficina. La toma de decisiones operativas se
+concentra en la Gerencia General y en la Gerencia de Operaciones, sin capas
+intermedias de supervisión ni área de tecnologías de información. La empresa no
+dispone de sistemas de gestión propios: la coordinación se apoya en planillas,
+formularios impresos y mensajería instantánea. Este perfil corresponde al de una
+pequeña empresa según el criterio de tamaño de la Ley 20.416, y define además la
+restricción de diseño principal de esta propuesta: cualquier solución debe poder ser
+operada y mantenida sin personal técnico dedicado.
 
 \subsection{Evidencia de existencia}
-
-% Enlaces fechados + referencia a las capturas numeradas del anexo + acta de entrevista.
 
 \begin{table}[h]
 \centering
@@ -133,23 +144,22 @@ Clientes principales & SMU (Unimarc), Cencosud, Falabella \\
 \toprule
 \textbf{N°} & \textbf{Evidencia} & \textbf{Fecha} & \textbf{Referencia} \\
 \midrule
-1 & Sitio web institucional & \ 01/09/2026 & assets
-/ev-01-sitio.png.png \\
-2 & Acta de entrevista firmada & \ 06/09/2026 & assets
-/ev-02-acta.pdf \\
-3 & Ficha de checklist en uso (anonimizada) & 06/09/2026 & assets
-/ev-05-ficha-checklist.pdf\\
+1 & Sitio web institucional & \ 01/09/2026 & assets/ev-01-sitio.png.png \\
+2 & Acta de entrevista firmada & \ 06/09/2026 & assets/ev-02-acta.pdf \\
+3 & Ficha de checklist en uso (anonimizada) & 06/09/2026 & assets/ev-05-ficha-checklist.pdf\\
 4 & Hoja de registro de tableros (anonimizada) & \ph{fecha} & Anexo, Figura X \\
-5 & Transcripción de la entrevista & 06/09/2026 & docs
-/04-transcripción-entrevista.pdf \\
+5 & Transcripción de la entrevista & 06/09/2026 & docs/04-transcripción-entrevista.pdf \\
 \bottomrule
 \end{tabular}
 \caption{Evidencia verificable del caso}
 \end{table}
 
 \paragraph{Entrevista.}
-% Fecha, lugar, nombre y cargo del entrevistado, autorización de uso académico.
-\ph{texto}
+La caracterización del proceso y del problema proviene de una entrevista
+semiestructurada al Gerente de Operaciones de IMELSE, \ph{nombre}, realizada el
+\ph{fecha} en \ph{lugar}. La pauta utilizada, el acta firmada y la transcripción
+completa se encuentran en el repositorio. El entrevistado autorizó el uso académico
+del material en el marco de este curso.
 
 \paragraph{Nota de confidencialidad.}
 Los documentos operativos facilitados por la empresa se incorporan anonimizados:
@@ -158,36 +168,101 @@ cliente corporativo y referencias a condiciones comerciales.
 
 \subsection{Problema de negocio}
 
-% UNA FRASE MEDIBLE + impacto en tiempo, costo, error y servicio.
-
 \begin{quote}
 \itshape
-\ph{Enunciado del problema en una frase medible}
+Entre 15 y 20 de cada 100 mantenciones preventivas quedan incompletas sin detección
+oportuna, porque el cumplimiento se declara en checklists de papel sin evidencia
+verificable por tablero y llega a oficina 16 a 24 horas después. Esto genera
+re-visitas absorbidas por la empresa, tableros que pasan ciclos bimensuales completos
+sin revisión, y exposición a falla eléctrica bajo un contrato con seguro comprometido
+de 27.500 UF.
 \end{quote}
+
+\paragraph{Nota metodológica.} La cifra de 15 a 20 por ciento corresponde a una
+estimación declarada por el Gerente de Operaciones durante la entrevista y no a una
+medición. Se cita como tal, y su conversión en indicador medido es precisamente uno
+de los resultados esperados del sistema propuesto.
 
 \paragraph{Manifestaciones.}
 \begin{enumerate}[label=P\arabic*.,leftmargin=*]
-  \item \ph{manifestación}
-  \item \ph{manifestación}
-  \item \ph{manifestación}
-  \item \ph{manifestación}
-  \item \ph{manifestación}
-  \item \ph{manifestación}
+  \item \textbf{Traspaso de información diferido.} El resultado de la visita llega a
+  oficina entre 16 y 24 horas después de ejecutada, cuando la cuadrilla regresa a
+  dependencias de IMELSE y entrega los formularios en papel.
+  \item \textbf{Registro no verificable.} El cumplimiento se declara marcando un
+  checklist impreso, sin evidencia asociada a cada tablero, por lo que no es posible
+  distinguir un tablero intervenido de uno solo declarado.
+  \item \textbf{Cobertura de tableros incierta.} Existe levantamiento de tableros en
+  el 80 a 90 por ciento de los locales, pero no se contrasta contra lo efectivamente
+  ejecutado, de modo que un tablero puede atravesar ciclos bimensuales completos sin
+  revisión sin que nadie lo detecte.
+  \item \textbf{Pérdida de evidencia.} Las fotografías de respaldo se envían por
+  mensajería instantánea y posteriormente no se encuentran o no pueden asociarse a la
+  visita y al tablero que documentan.
+  \item \textbf{Detección tardía y reactiva.} Los incumplimientos se descubren en la
+  revisión posterior del informe o ante una falla en el local, no durante la
+  ejecución.
+  \item \textbf{Re-trabajo en abastecimiento.} La información incompleta sobre el
+  estado de los tableros genera compras erradas y retiros de materiales que no
+  corresponden a la necesidad real.
 \end{enumerate}
 
 \paragraph{Impacto.}
-% Tabla con dimensiones: servicio, costo, tiempo, riesgo, control.
-\ph{tabla}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{2.6cm}p{6.2cm}p{5.6cm}@{}}
+\toprule
+\textbf{Dimensión} & \textbf{Manifestación} & \textbf{Consecuencia para IMELSE} \\
+\midrule
+Servicio & Mantenciones preventivas incompletas (P2, P3) & Incumplimiento del alcance comprometido en el contrato bimensual \\
+Costo & Re-visitas para completar trabajo declarado (P2, P5) & Costo de cuadrilla y traslado absorbido íntegramente por la empresa \\
+Tiempo & Latencia de 16 a 24 horas en el traspaso (P1) & La gerencia decide sobre información del día anterior \\
+Riesgo & Tableros sin revisión durante ciclos completos (P3) & Exposición a falla eléctrica bajo un seguro comprometido de 27.500 UF \\
+Control & Ausencia de evidencia asociada al tablero (P2, P4) & Imposibilidad de auditar el cumplimiento ante el cliente corporativo \\
+Abastecimiento & Información incompleta del estado real (P6) & Compras erradas y retiros de bodega innecesarios \\
+\bottomrule
+\end{tabular}
+\caption{Impacto del problema por dimensión}
+\end{table}
 
 \paragraph{Intentos previos de solución.}
-% Los dos mecanismos ensayados por la empresa y por qué fallaron.
-% Este párrafo es el que justifica que la solución deba forzar el registro.
-\ph{texto}
+La empresa ensayó dos mecanismos antes de este proyecto, y ambos fallaron por la
+misma razón estructural.
+
+El primero consistió en instalar una etiqueta adhesiva en cada tablero intervenido,
+como marca física de ejecución. El mecanismo se abandonó porque los técnicos dejaban
+de instalarla ante cualquier faltante o condición irregular, para no comprometer
+responsabilidad sobre un trabajo que consideraban incompleto. El registro dependía de
+la voluntad de quien lo generaba y, en el momento en que más importaba, desaparecía.
+
+El segundo, vigente desde hace aproximadamente un mes y medio, es una hoja de registro
+de tableros con mediciones de termografía. Mejora la calidad del diagnóstico técnico,
+pero conserva las dos limitaciones centrales: sigue siendo un documento en papel que
+llega a oficina con la misma latencia, y no garantiza que la hoja cubra todos los
+tableros del local.
+
+Ambos intentos muestran que el problema no es de diligencia del personal sino de
+diseño del registro: mientras la declaración de cumplimiento se pida después del
+hecho y sin evidencia asociada, el mecanismo es evitable. Esto justifica que la
+solución propuesta deba \textbf{forzar el registro en el momento de la ejecución} en
+lugar de solicitarlo posteriormente, decisión que atraviesa todo el rediseño de
+proceso y el modelo de datos de este informe.
 
 \subsection{Objetivo del SIG propuesto}
 
-% Qué decisión u operación mejora. Concreto, no genérico.
-\ph{texto}
+\begin{quote}
+\itshape
+Permitir que la gerencia determine, en el momento del cierre de cada visita y sin
+depender de la declaración del técnico, qué tableros del local fueron efectivamente
+intervenidos y con qué resultado, sustituyendo el checklist de papel por un registro
+guiado con evidencia obligatoria por tablero.
+\end{quote}
+
+El objetivo se acota deliberadamente a una decisión concreta y verificable. No se
+propone un sistema de gestión integral: se propone cerrar la brecha entre lo
+declarado y lo ejecutado en la mantención preventiva bajo contrato, que es donde se
+concentran el riesgo contractual y el costo de re-visita.
 
 % ============================================================
 % C. REQUERIMIENTOS DESDE CERO
@@ -195,53 +270,146 @@ cliente corporativo y referencias a condiciones comerciales.
 \section{Requerimientos}
 
 \subsection{Actores y roles}
-% Humanos y sistemas externos.
-\ph{tabla}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{3.6cm}p{2.2cm}p{8.8cm}@{}}
+\toprule
+\textbf{Actor} & \textbf{Tipo} & \textbf{Relación con el sistema} \\
+\midrule
+Técnico de terreno & Humano & Ejecuta la mantención y registra cada tablero con evidencia \\
+Ayudante & Humano & Apoya la ejecución; puede registrar bajo el mismo perfil \\
+Estudiante dual & Humano & Integra la cuadrilla en formación; perfil de registro restringido \\
+Programación / oficina & Humano & Confirma el ciclo, asigna cuadrilla y fecha \\
+Administración y bodega & Humano & Gestiona la entrega de materiales y el stock \\
+Gerencia de Operaciones & Humano & Consulta el panel, revisa cobertura, pendientes y hallazgos \\
+Cliente corporativo & Externo & Recibe el aviso de servicio y el informe de la visita \\
+Plataforma SIG & Sistema & Genera visitas, valida cobertura, cierra visitas y genera informes \\
+\bottomrule
+\end{tabular}
+\caption{Actores y roles}
+\end{table}
 
 \subsection{Alcance}
+
 \subsubsection*{Dentro del alcance}
 \begin{itemize}
-  \item \ph{ítem}
+  \item Mantención preventiva bajo contrato, en la rama del cliente corporativo SMU.
+  \item Catálogo maestro de clientes, locales y tableros.
+  \item Programación de visitas a partir del ciclo bimensual del contrato.
+  \item Registro guiado por tablero con evidencia fotográfica obligatoria.
+  \item Validación de cobertura y declaración de pendientes con motivo.
+  \item Panel de gerencia y generación del informe de visita.
 \end{itemize}
 
 \subsubsection*{Fuera del alcance}
-% Tabla con exclusión + justificación. Muestra que hubo decisión, no olvido.
-\ph{tabla}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{5cm}p{9.5cm}@{}}
+\toprule
+\textbf{Exclusión} & \textbf{Justificación} \\
+\midrule
+Servicios correctivos & Se originan por aviso y no tienen alcance predefinido, por lo que la validación de cobertura no aplica. Se modelan como contexto en el as-is \\
+Proyectos y mejoras de infraestructura & Operan con lógica de cotización y no de ciclo de contrato \\
+Gestión de inventario y bodega & Existe un procedimiento en uso que no forma parte del problema declarado \\
+Facturación y cobranza & Fuera del objetivo del sistema; no interviene en la brecha entre lo declarado y lo ejecutado \\
+Integración con sistemas del cliente & Depende de terceros y de acuerdos comerciales no disponibles en el horizonte del proyecto \\
+Equipos de frío & El alcance técnico de IMELSE llega hasta el punto eléctrico \\
+\bottomrule
+\end{tabular}
+\caption{Exclusiones de alcance y su justificación}
+\end{table}
 
 \subsection{Requisitos funcionales}
 
-% Mínimo 8. Priorizados con MoSCoW y trazados al problema (columna Origen).
+% NOTA: completar RF-10 a RF-18 desde docs/01-requerimientos.md manteniendo la numeración.
 
 \begin{longtable}{@{}p{1.4cm}p{8.4cm}p{1.8cm}p{1.6cm}p{1.4cm}@{}}
 \toprule
 \textbf{ID} & \textbf{Requisito} & \textbf{Actor} & \textbf{Prioridad} & \textbf{Origen} \\
 \midrule
 \endhead
-RF-01 & \ph{requisito} & \ph{actor} & M & P\ph{n} \\
-RF-02 & \ph{requisito} & \ph{actor} & M & P\ph{n} \\
-% ... completar desde docs/01-requerimientos.md
+RF-01 & El sistema debe mantener un registro maestro de clientes, locales y tableros, con identificación única de cada tablero dentro de su local & Programación & M & P3 \\
+RF-02 & El sistema debe generar la visita a partir del calendario del contrato y asociarle una cuadrilla y una fecha & Programación & M & P1 \\
+RF-03 & El sistema debe presentar un checklist guiado por tablero que no permita marcar un ítem como cumplido sin la evidencia asociada & Técnico & M & P2 \\
+RF-04 & El sistema debe exigir al menos una fotografía por tablero intervenido, capturada durante la ejecución & Técnico & M & P4 \\
+RF-05 & El sistema debe registrar automáticamente fecha, hora y usuario en cada registro, sin intervención del operador & Plataforma & M & P2 \\
+RF-06 & El sistema debe impedir el cierre de la visita si existen tableros del local sin registro, salvo declaración explícita de pendiente & Plataforma & M & P3 \\
+RF-07 & El sistema debe permitir declarar un tablero como pendiente indicando obligatoriamente el motivo & Técnico & M & P3 \\
+RF-08 & El sistema debe dejar el resultado de la visita disponible en oficina de forma inmediata al cierre & Plataforma & M & P1 \\
+RF-09 & El sistema debe mantener el historial de intervenciones por tablero a lo largo de los ciclos & Gerencia & M & P5 \\
+RF-10 & El sistema debe registrar los hallazgos detectados durante la visita, clasificados por nivel de criticidad & Técnico & S & P5 \\
+RF-11 & El sistema debe registrar los materiales o repuestos faltantes detectados en terreno, asociados al local y a la visita & Técnico & S & P6 \\
+RF-12 & El sistema debe entregar a la gerencia un panel con el porcentaje de cobertura de tableros y de visitas completas por local y por ciclo & Gerente & S & P3, P5 \\
+RF-13 & El sistema debe generar el informe de mantención en formato exportable, con la evidencia asociada, para su envío al cliente & Administración & S & P4 \\
+RF-14 & El sistema debe administrar usuarios y perfiles de acceso diferenciados para técnico, gerencia y administración & Gerente & S & - \\
+RF-15 & El sistema debe arrastrar automáticamente los pendientes declarados de un ciclo a la planificación del ciclo siguiente & Gerente & C & P3 \\
+RF-16 & El sistema debe permitir al encargado del local validar la presencia de la cuadrilla mediante firma en el dispositivo & Encargado & C & - \\
+RF-17 & El sistema debe registrar las mediciones numéricas de termografía asociadas a cada tablero & Técnico & C & P5 \\
+RF-18 & El sistema debe notificar automáticamente a la gerencia cuando una visita se cierra con pendientes críticos & Sistema & C & P5 \\
+
 \bottomrule
-\caption{Requisitos funcionales priorizados (MoSCoW)}
+\caption{Requisitos funcionales priorizados (MoSCoW). Se presentan los nueve
+requisitos de prioridad \emph{Must}; el listado completo de 18 requisitos se
+encuentra en \texttt{docs/01-requerimientos.md}.}
 \end{longtable}
 
 \subsection{Requisitos no funcionales}
-
-% Mínimo 5. Cada uno con su origen justificado, no genéricos.
 
 \begin{longtable}{@{}p{1.6cm}p{8.2cm}p{2.4cm}p{1.6cm}@{}}
 \toprule
 \textbf{ID} & \textbf{Requisito} & \textbf{Categoría} & \textbf{Prioridad} \\
 \midrule
 \endhead
-RNF-01 & \ph{requisito} & \ph{categoría} & M \\
+RNF-01 & El registro debe poder completarse sin conexión y sincronizarse al recuperar señal, dado que las salas de tableros pueden carecer de cobertura celular & Disponibilidad & M \\
+RNF-02 & Un registro cerrado no puede modificarse; las correcciones generan un registro nuevo con autor y fecha, conservando el original & Integridad & M \\
+RNF-03 & El registro de un tablero debe completarse en un máximo de cinco interacciones, siendo operable con una mano y con guantes de seguridad & Usabilidad & M \\
+RNF-04 & El sistema debe soportar el volumen de evidencia del ciclo: aproximadamente 30 visitas mensuales con ~20 tableros cada una, con al menos una fotografía por tablero & Rendimiento & M \\
+RNF-05 & El acceso debe estar controlado por perfil, y cada acción sobre un registro debe quedar atribuida a un usuario identificado & Seguridad & M \\
+RNF-06 & El tratamiento de datos personales de trabajadores y de terceros debe ajustarse a la Ley 21.719, con minimización de datos y finalidad declarada & Rendimiento & M \\
+RNF-07 & El sistema debe ejecutarse en dispositivos móviles Android de gama media, sin requerir hardware especializado & Compatibilidad & S \\
+RNF-08 & Las fotografías deben comprimirse antes de la sincronización, sin perder legibilidad de la identificación del tablero ni de las conexiones & Rendimiento & S \\
+RNF-09 & El prototipo de la Entrega 2 debe ser reproducible en localhost a partir del repositorio, con instrucciones en el README & Mantenibilidad & M \\
+RNF-10 & El sistema debe conservar la evidencia por al menos el período de vigencia del contrato de mantención & Cumplimiento & S \\
 \bottomrule
-\caption{Requisitos no funcionales}
+\caption{Requisitos no funcionales. Se presentan los tres de prioridad \emph{Must};
+el listado completo de 10 requisitos se encuentra en
+\texttt{docs/01-requerimientos.md}.}
 \end{longtable}
 
+\paragraph{Nota sobre RNF-01.} La exigencia de operación sin conexión depende de la
+disponibilidad de señal celular en las salas eléctricas de los locales, consulta
+formulada a la empresa y sin respuesta al cierre de este informe. El requisito se
+mantiene como \emph{Must} por criterio conservador, y su realización se declara fuera
+del alcance del prototipo de la Entrega 2 en la sección \ref{sec:alcance-prototipo}.
+
+\paragraph{Nota sobre RNF-03.} El límite de cinco interacciones responde a que
+aproximadamente el 40 por ciento del personal de apoyo corresponde a estudiantes
+duales en rotación, por lo que el sistema no puede suponer entrenamiento acumulado ni
+familiaridad con la herramienta.
+
 \subsection{Trazabilidad problema $\rightarrow$ requisito}
-% Tabla que conecta cada manifestación P1–P6 con los requisitos que la atacan.
-% Es lo que demuestra que los requisitos no salieron de la nada.
-\ph{tabla}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{1.2cm}p{6.3cm}p{6.8cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Manifestación} & \textbf{Requisitos que la atacan} \\
+\midrule
+P1 & Traspaso de información diferido & RF-02, RF-08 \\
+P2 & Registro no verificable & RF-03, RF-04, RF-05, RNF-02 \\
+P3 & Cobertura de tableros incierta & RF-01, RF-06, RF-07 \\
+P4 & Pérdida de evidencia & RF-04, RF-05 \\
+P5 & Detección tardía y reactiva & RF-06, RF-08, RF-09 \\
+P6 & Re-trabajo en abastecimiento & RF-09 \\
+\bottomrule
+\end{tabular}
+\caption{Trazabilidad entre las manifestaciones del problema y los requisitos}
+\end{table}
 
 % ============================================================
 % D. PROCESOS BPMN
@@ -250,13 +418,18 @@ RNF-01 & \ph{requisito} & \ph{categoría} & M \\
 
 \subsection{Alcance del modelo}
 
-El modelo as-is incluye la compuerta inicial de tipo de trabajo con sus tres ramas
-para situar el proceso dentro de la operación completa de IMELSE. El modelado en
-profundidad y el rediseño se acotan a la rama de \textbf{mantención preventiva bajo
-contrato}, coherente con el alcance declarado en la sección anterior.
+El modelo as-is incluye la recepción de órdenes de trabajo y la compuerta de tipo de
+trabajo con sus ramas de servicios correctivos y de proyectos, con el fin de situar el
+proceso dentro de la operación completa de IMELSE. El modelado en profundidad y el
+rediseño se acotan a la rama de \textbf{mantención preventiva bajo contrato},
+coherente con el alcance declarado en la sección anterior. Las ramas de correctivos y
+proyectos se representan sin desarrollo interno y no son objeto de rediseño.
 
-Por su extensión, el proceso as-is se presenta en tres figuras. El archivo fuente
-completo en formato Bizagi está disponible en \texttt{assets/} del repositorio.
+Por su extensión, tanto el proceso as-is como el to-be se presentan en tres figuras
+correspondientes a los tramos de recepción y despacho, preparación y ejecución en
+terreno, y cierre e informe. Los archivos fuente en formato Bizagi
+(\texttt{bpmn-as-is-imelse.bpm} y \texttt{bpmn-to-be-imelse.bpm}) están disponibles en
+\texttt{assets/} del repositorio.
 
 \subsection{Proceso as-is}
 
@@ -284,23 +457,61 @@ completo en formato Bizagi está disponible en \texttt{assets/} del repositorio.
 \end{landscape}
 
 \paragraph{Puntos críticos identificados.}
-% Referirse a las figuras por número: "como muestra la Figura \ref{fig:asis3}...".
-\ph{texto}
+El tramo de cierre, representado en la Figura \ref{fig:asis3}, concentra las
+debilidades del proceso actual. La generación del informe está condicionada al
+retorno físico de la cuadrilla a dependencias de IMELSE, y un evento temporizador de
+16 a 24 horas separa la ejecución en terreno de la disponibilidad de la información en
+oficina. El proceso contiene además dos ciclos de re-trabajo: el de solicitud de
+pruebas fotográficas, que puede obligar a la cuadrilla a volver al local a tomar
+nuevas fotografías, y el de solicitud de detalles faltantes tras la revisión del
+informe por parte de Gerencia.
+
+Un tercer punto crítico no es un elemento del diagrama sino su ausencia: no existe
+ninguna compuerta que verifique que los tableros intervenidos correspondan a los
+tableros existentes en el local. El cumplimiento se declara en el formulario
+\emph{Lista de chequeo} sin contraste posible, y los pendientes se comunican
+verbalmente, sin quedar registrados ni corregidos, tal como consigna la anotación
+respectiva en la Figura \ref{fig:asis3}.
 
 \subsection{Proceso to-be}
 
 \begin{landscape}
 \begin{figure}[p]
   \centering
-  % \includegraphics[width=\linewidth]{assets/bpmn-tobe.png}
-  \caption{Proceso to-be con la intervención del SIG}
-  \label{fig:tobe}
+  % \includegraphics[width=\linewidth]{assets/bpmn-tobe-1.png}
+  \caption{Proceso to-be (1 de 3): programación del ciclo y despacho, con la
+  incorporación del carril de la plataforma}
+  \label{fig:tobe1}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  % \includegraphics[width=\linewidth]{assets/bpmn-tobe-2.png}
+  \caption{Proceso to-be (2 de 3): ejecución en terreno mediante el subproceso de
+  múltiple instancia \emph{Realizar mantenimiento por tablero}}
+  \label{fig:tobe2}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  % \includegraphics[width=\linewidth]{assets/bpmn-tobe-3.png}
+  \caption{Proceso to-be (3 de 3): validación de cobertura, cierre de la visita y
+  consulta de gerencia desacoplada del flujo}
+  \label{fig:tobe3}
 \end{figure}
 \end{landscape}
 
-\subsection{Explicación de las mejoras}
+\paragraph{Nota de notación.} El subproceso \emph{Realizar mantenimiento por tablero}
+se representa con marcador de múltiple instancia secuencial, indicando que se ejecuta
+una vez por cada tablero del local. La tarea \emph{Consultar panel}, en el carril de
+Gerencia, no recibe flujo de secuencia: se activa por un evento temporizador propio y
+se conecta al almacén mediante asociación de datos. Esta representación es
+deliberada y expresa que la revisión de gerencia dejó de ser un paso bloqueante del
+proceso operativo. Las cuatro representaciones del almacén \emph{Sistema de registro
+SIG} corresponden al mismo repositorio lógico, y se repiten únicamente por legibilidad
+del diagrama.
 
-% El enunciado pide explícitamente estas tres dimensiones.
+\subsection{Explicación de las mejoras}
 
 \paragraph{Qué se automatiza.} La generación de la visita desde el calendario del
 contrato, el aviso de servicio al cliente, la marca de fecha, hora y usuario de cada
@@ -317,6 +528,12 @@ intentos previos de la empresa.
 \paragraph{Qué se mide.} Tres variables que hoy no existen como dato: cobertura de
 tableros por visita, tasa de mantención completa y latencia entre la ejecución en
 terreno y la disponibilidad del registro en oficina.
+
+\paragraph{Qué desaparece.} El evento temporizador de 16 a 24 horas, los dos ciclos de
+re-trabajo asociados a la solicitud de fotografías y de detalles faltantes, la
+dependencia del retorno a dependencias de IMELSE para generar el informe, y la salida
+informal por pendiente sin registro, que pasa a ser un estado registrado con motivo y
+autor.
 
 \begin{table}[h]
 \centering
@@ -342,22 +559,12 @@ mantención preventiva bajo contrato.}
 \label{tab:comparacion-asis-tobe}
 \end{table}
 
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{@{}p{7cm}cc@{}}
-\toprule
-\textbf{Elemento del modelo} & \textbf{as-is} & \textbf{to-be} \\
-\midrule
-Eventos de espera & \ph{n} & \ph{n} \\
-Eventos de término & \ph{n} & \ph{n} \\
-Bucles de re-trabajo & \ph{n} & \ph{n} \\
-Carriles con actividad & \ph{n} & \ph{n} \\
-Latencia del registro & \ph{n} h & \ph{n} h \\
-\bottomrule
-\end{tabular}
-\caption{Comparación estructural entre el as-is y el to-be}
-\end{table}
+Dos precisiones sobre el cuadro. Los dos eventos de espera que subsisten están ambos
+en el bloque de solicitud de materiales, que no fue rediseñado; los eventos de espera
+eliminados corresponden en su totalidad al tramo de cierre. Los eventos de término
+aumentan de uno a dos porque la revisión de gerencia dejó de ser un paso bloqueante
+del flujo y pasó a constituir un fragmento independiente, conectado al registro por
+asociación de datos.
 
 % ============================================================
 % E. MODELO DE DATOS PRELIMINAR
@@ -375,13 +582,69 @@ Latencia del registro & \ph{n} h & \ph{n} h \\
 \end{landscape}
 
 \subsection{Entidades y claves}
-% Descripción de cada entidad central + PK candidatas.
-% Justificar la elección de PK de Tablero (natural compuesta vs. surrogate).
-\ph{tabla}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{2.4cm}p{2.8cm}p{3.2cm}p{5.6cm}@{}}
+\toprule
+\textbf{Entidad} & \textbf{PK} & \textbf{FK} & \textbf{Atributos principales} \\
+\midrule
+Cliente & id\_cliente & --- & razon\_social, unidad\_negocio \\
+Local & id\_local & id\_cliente & nombre, dirección, comuna \\
+Tablero & id\_tablero & id\_local & código, ubicación, tipo \\
+Ciclo & id\_ciclo & --- & año, periodo, fecha\_inicio \\
+Visita & id\_visita & id\_local, id\_ciclo & fecha, estado \\
+Usuario & id\_usuario & --- & nombre, rol \\
+Cuadrilla & id\_visita + id\_usuario & --- & función \\
+ItemChecklist & id\_item & --- & descripción, orden, obligatorio \\
+RegistroItem & id\_registro & id\_visita, id\_tablero, id\_item, id\_usuario & resultado, ts\_captura \\
+Evidencia & id\_evidencia & id\_registro & archivo, ts, hash \\
+Pendiente & id\_pendiente & id\_visita, id\_tablero & motivo, comentario \\
+Hallazgo & id\_hallazgo & id\_registro & criticidad, descripción \\
+\bottomrule
+\end{tabular}
+\caption{Entidades del modelo preliminar y sus claves}
+\end{table}
+
+\paragraph{Relaciones.} Todas las relaciones del modelo son de tipo uno a muchos, con
+la excepción de \texttt{Cuadrilla}, entidad asociativa que resuelve la relación de
+muchos a muchos entre \texttt{Visita} y \texttt{Usuario} y que permite registrar
+además la función desempeñada por cada integrante en esa visita específica.
+
+\paragraph{La relación que sostiene la solución.} La relación \texttt{Local}
+uno a muchos \texttt{Tablero} es la que hace posible el requisito central del sistema.
+Sin un catálogo de los tableros que pertenecen a cada local no existe conjunto contra
+el cual contrastar lo ejecutado, y la validación de cobertura de RF-06 carece de
+referencia. Es también la razón por la cual la construcción del catálogo maestro
+(RF-01) es condición previa de toda la propuesta y no un requisito accesorio.
+
+\paragraph{Clave primaria de \texttt{Tablero}.} Se evaluaron dos alternativas: una
+clave natural compuesta por \texttt{id\_local} y el código rotulado en el tablero, y
+una clave surrogate \texttt{id\_tablero}. Se optó por la surrogate, con una
+restricción de unicidad sobre el par \texttt{(id\_local, código)} que preserva la
+regla de negocio de que no existen dos tableros con el mismo código dentro de un
+mismo local.
+
+La justificación es doble. En primer lugar, el requisito no funcional de
+inmutabilidad (RNF-02) establece que un registro cerrado no puede modificarse; si la
+clave primaria fuera el código físico, cualquier reetiquetado, reemplazo de tablero o
+corrección del rotulado obligaría a propagar el cambio sobre registros históricos ya
+cerrados, contradiciendo dicho requisito. La clave surrogate permite que el código
+evolucione como atributo sin afectar la trazabilidad acumulada por tablero, que es lo
+que exige RF-09.
+
+En segundo lugar, el levantamiento de tableros existe actualmente en el 80 a 90 por
+ciento de los locales, de modo que parte del catálogo debe poder crearse antes de
+disponer de un código definitivo y verificado en terreno. Una clave natural exigiría
+un código válido en el momento del alta.
+
+Como consideración adicional, la clave natural es compuesta y se propagaría como par
+de columnas hacia \texttt{RegistroItem} y \texttt{Pendiente}, ampliando las claves
+foráneas de las entidades de mayor volumen del modelo sin beneficio funcional, dado
+que la validación de cobertura opera por identificador interno.
 
 \subsection{Trazabilidad proceso $\leftrightarrow$ datos}
-
-% ESTA TABLA ES LO QUE PIDE LA RÚBRICA. No omitirla.
 
 \begin{table}[h]
 \centering
@@ -390,15 +653,45 @@ Latencia del registro & \ph{n} h & \ph{n} h \\
 \toprule
 \textbf{Tarea del to-be} & \textbf{Entidades que lee o escribe} \\
 \midrule
-\ph{tarea} & \ph{entidades} \\
+Generar ciclo para la visita & lee \texttt{Local}, \texttt{Ciclo}; escribe \texttt{Visita} \\
+Asignar cuadrilla & escribe \texttt{Cuadrilla} \\
+Registrar tablero (subproceso) & lee \texttt{Tablero}, \texttt{ItemChecklist}; escribe \texttt{RegistroItem}, \texttt{Evidencia} \\
+Registrar hallazgo & escribe \texttt{Hallazgo} \\
+Validar cobertura de tableros & compara \texttt{Tablero} del local contra \texttt{RegistroItem} de la visita \\
+Declarar pendiente & escribe \texttt{Pendiente} \\
+Cerrar visita & actualiza el estado de \texttt{Visita} \\
+Generar informe & lee \texttt{Visita}, \texttt{RegistroItem}, \texttt{Evidencia}, \texttt{Hallazgo} \\
+Consultar panel & lee \texttt{RegistroItem}, \texttt{Pendiente}, \texttt{Hallazgo} \\
 \bottomrule
 \end{tabular}
 \caption{Cómo el modelo de datos sostiene el proceso modelado}
 \end{table}
 
 \subsection{Decisiones y supuestos del modelo}
-% Qué se dejó fuera y por qué (p. ej. la entidad Informe).
-\ph{texto}
+
+\paragraph{La entidad \emph{Informe} se dejó fuera del modelo.} El informe de visita
+es un artefacto generado íntegramente a partir de \texttt{Visita},
+\texttt{RegistroItem}, \texttt{Evidencia} y \texttt{Hallazgo}, y no aporta información
+que no esté ya contenida en esas entidades. Incorporarlo como entidad introduciría
+duplicación y un riesgo de divergencia entre el informe almacenado y los datos que lo
+originaron. Se trata de una decisión de diseño y no de una omisión.
+
+\paragraph{Las fotografías se almacenan como archivos.} La tabla \texttt{Evidencia}
+conserva la ruta del archivo junto con su hash y la marca de tiempo de captura. El
+hash permite detectar alteraciones posteriores del archivo, lo que complementa a
+RNF-02: no basta con que el registro sea inmutable si la evidencia asociada puede
+sustituirse.
+
+\paragraph{La cuadrilla se modela como entidad asociativa.} Una visita involucra
+varios usuarios y un usuario participa en múltiples visitas. La entidad
+\texttt{Cuadrilla} resuelve esta relación y permite además registrar la función
+específica de cada integrante, distinción necesaria porque el perfil de estudiante
+dual tiene atribuciones de registro distintas a las del técnico responsable.
+
+\paragraph{El checklist se modela como catálogo.} \texttt{ItemChecklist} es una
+entidad independiente y no un conjunto de columnas de \texttt{RegistroItem}, de modo
+que la pauta de mantención puede evolucionar sin alterar el esquema ni invalidar los
+registros históricos.
 
 % ============================================================
 % F. ARQUITECTURA LÓGICA Y STACK
@@ -414,20 +707,14 @@ Latencia del registro & \ph{n} h & \ph{n} h \\
 \toprule
 \textbf{Capa} & \textbf{Función} & \textbf{Realización en el caso} \\
 \midrule
-Captura de datos & \ph{función} & \ph{realización} \\
-Persistencia & \ph{función} & \ph{realización} \\
-Analítica / KPI & \ph{función} & \ph{realización} \\
-Interfaz & \ph{función} & \ph{realización} \\
+Captura de datos & Registrar la ejecución en el punto y momento en que ocurre & Aplicación web responsiva utilizada desde el teléfono por la cuadrilla, con captura de fotografía desde la cámara del dispositivo \\
+Persistencia & Almacenar de forma íntegra los registros y su evidencia & Base de datos relacional con el esquema del modelo ER, más almacenamiento de archivos para las fotografías, referenciadas por ruta y hash \\
+Analítica / KPI & Transformar los registros en indicadores de proceso & Vistas y consultas sobre cobertura de tableros, visitas completas y latencia del registro \\
+Interfaz & Exponer el estado a quien decide & Panel de gerencia con estado de visitas, pendientes y hallazgos, y generación del informe de visita \\
 \bottomrule
 \end{tabular}
 \caption{Arquitectura lógica por capas}
 \end{table}
-
-% Opcional: diagrama de componentes
-% \begin{figure}[h]\centering
-%   \includegraphics[width=0.85\linewidth]{assets/arquitectura.png}
-%   \caption{Diagrama de componentes}
-% \end{figure}
 
 \subsection{Stack tentativo para la Entrega 2}
 
@@ -438,23 +725,70 @@ Interfaz & \ph{función} & \ph{realización} \\
 \toprule
 \textbf{Componente} & \textbf{Tecnología y versión} & \textbf{Justificación} \\
 \midrule
-Lenguaje / framework & \ph{tecnología} & \ph{justificación} \\
-Base de datos & \ph{tecnología} & \ph{justificación} \\
-Almacenamiento de imágenes & \ph{tecnología} & \ph{justificación} \\
-Interfaz & \ph{tecnología} & \ph{justificación} \\
+Lenguaje & Python \ph{3.12.x} & Lenguaje dominado por el equipo; evita costo de aprendizaje dentro del plazo de la Entrega 2 \\
+Framework web & Django \ph{5.x} & Incluye ORM, panel de administración y sistema de autenticación por rol, lo que cubre gran parte de los requisitos sin desarrollo adicional \\
+Base de datos & PostgreSQL \ph{16.x}, con SQLite como alternativa de reproducción & Motor relacional acorde al modelo ER; SQLite simplifica la reproducción en localhost por parte del corrector \\
+Almacenamiento de imágenes & Sistema de archivos local, referenciado desde \texttt{Evidencia} & Evita dependencia de servicios externos y mantiene el prototipo reproducible sin credenciales \\
+Interfaz & Plantillas Django con diseño responsivo & Un único desarrollo sirve al panel de oficina y al uso en terreno \\
 \bottomrule
 \end{tabular}
 \caption{Stack tentativo}
 \end{table}
 
+\paragraph{Criterio de selección.} El stack se eligió por dominio del equipo y por
+reproducibilidad, no por superioridad técnica. Dado que el prototipo debe levantarse
+en localhost por un tercero y que el plazo de la Entrega 2 es acotado, se privilegió
+un conjunto de herramientas conocidas y con configuración mínima por sobre
+alternativas de mejor rendimiento o mayor escalabilidad, que el problema de IMELSE no
+requiere: el volumen estimado es de aproximadamente 30 mantenciones preventivas
+mensuales con un orden de 20 tableros por local.
+
 \subsection{Reproducibilidad en localhost}
-% Pasos que el README documentará: clonar, instalar, migrar, cargar datos de prueba, levantar.
-\ph{texto}
+
+El archivo \texttt{README.md} del repositorio documentará la secuencia completa de
+puesta en marcha: clonar el repositorio, crear el entorno virtual e instalar las
+dependencias declaradas en \texttt{requirements.txt}, aplicar las migraciones que
+construyen el esquema del modelo ER, cargar el conjunto de datos ficticios de prueba
+mediante \emph{fixtures}, y levantar el servidor de desarrollo. Los datos de prueba
+incluirán un cliente, dos locales con su catálogo de tableros, un ciclo y usuarios
+para cada rol, de modo que el flujo completo pueda recorrerse sin carga manual previa.
 
 \subsection{Alcance del prototipo}
-% Declarar explícitamente qué queda fuera del prototipo de E2 (p. ej. operación offline)
-% y por qué. Es preferible declararlo a prometerlo y no cumplirlo.
-\ph{texto}
+\label{sec:alcance-prototipo}
+
+El prototipo de la Entrega 2 implementará la captura en línea, la validación de
+cobertura, la declaración de pendientes, el cierre de visita y el panel de gerencia
+con los indicadores definidos.
+
+Se declara explícitamente fuera del alcance del prototipo la operación sin conexión
+(RNF-01). El requisito se contempla en el diseño, y el modelo de datos lo admite en
+tanto el registro es una entidad independiente con marca de tiempo de captura propia,
+pero su implementación exige una capa de sincronización y resolución de conflictos que
+excede el plazo disponible. Se prefiere declarar esta restricción antes que
+comprometerla y no cumplirla.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{5.5cm}p{3.5cm}p{3.5cm}@{}}
+\toprule
+\textbf{Indicador} & \textbf{Línea base} & \textbf{Meta} \\
+\midrule
+Tasa de mantención completa & 80--85 \% (declarado) & $\geq$ 95 \% \\
+Cobertura de tableros por visita & No medible actualmente & $\geq$ 98 \% \\
+Latencia del registro & 16--24 h & $<$ 1 h \\
+Tasa de re-visita & \ph{por confirmar} & $-$50 \% \\
+\bottomrule
+\end{tabular}
+\caption{Indicadores a implementar en la Entrega 2}
+\end{table}
+
+\paragraph{Indicador descartado.} Se evaluó y descartó un indicador de productividad
+individual por técnico. La razón es metodológica y ética a la vez: el problema
+declarado es de diseño del registro y no de desempeño de las personas, como lo
+demuestra el fracaso de los dos intentos previos, y un indicador por persona
+convertiría una herramienta de control de proceso en un instrumento de evaluación
+laboral. Esta decisión se retoma en la sección de riesgos de datos personales.
 
 % ============================================================
 % G. PLAN DE ENTREGA 2 Y RIESGOS
@@ -463,6 +797,9 @@ Interfaz & \ph{tecnología} & \ph{justificación} \\
 
 \subsection{Hitos y responsables}
 
+% NOTA: asignación tentativa de responsables. Ajustar según acuerdo del equipo,
+% y completar las fechas una vez confirmada la fecha de la Entrega 2.
+
 \begin{table}[h]
 \centering
 \small
@@ -470,7 +807,16 @@ Interfaz & \ph{tecnología} & \ph{justificación} \\
 \toprule
 \textbf{N°} & \textbf{Fecha} & \textbf{Hito} & \textbf{Responsable} \\
 \midrule
-1 & \ph{fecha} & \ph{hito} & \ph{nombre} \\
+1 & \ph{fecha} & Esquema de base de datos implementado y migrado & \ph{nombre} \\
+2 & \ph{fecha} & Carga del catálogo maestro y datos de prueba & \ph{nombre} \\
+3 & \ph{fecha} & Autenticación y perfiles por rol & \ph{nombre} \\
+4 & \ph{fecha} & Generación de visitas desde el ciclo & \ph{nombre} \\
+5 & \ph{fecha} & Registro guiado por tablero con evidencia obligatoria & \ph{nombre} \\
+6 & \ph{fecha} & Validación de cobertura y declaración de pendientes & \ph{nombre} \\
+7 & \ph{fecha} & Panel de gerencia e indicadores & \ph{nombre} \\
+8 & \ph{fecha} & Generación del informe de visita & \ph{nombre} \\
+9 & \ph{fecha} & Pruebas de reproducción en localhost por un integrante ajeno al desarrollo & \ph{nombre} \\
+10 & \ph{fecha} & Documentación final, README y entrega & \ph{nombre} \\
 \bottomrule
 \end{tabular}
 \caption{Hitos de la Entrega 2}
@@ -485,7 +831,12 @@ Interfaz & \ph{tecnología} & \ph{justificación} \\
 \toprule
 \textbf{Riesgo} & \textbf{Impacto} & \textbf{Mitigación} \\
 \midrule
-\ph{riesgo} & \ph{alto/medio/bajo} & \ph{mitigación} \\
+Ausencia de levantamiento de tableros en el 10 a 20 \% de los locales & Alto & Modelar el catálogo como incremental: el sistema permite dar de alta tableros durante la visita, registrando quién los incorporó \\
+Falta de confirmación sobre cobertura celular en salas de tableros & Alto & Declarar la operación sin conexión fuera del alcance del prototipo y diseñar el registro con marca de tiempo de captura propia, que la admite posteriormente \\
+Resistencia del personal de terreno al registro obligatorio & Medio & Limitar el registro a cinco interacciones por tablero (RNF-03) y comunicar que los indicadores son de proceso y no de persona \\
+Indisponibilidad de la empresa para validar el prototipo & Medio & Validar contra la transcripción y el acta ya obtenidas; registrar los supuestos no confirmados como tales \\
+Concentración del desarrollo en pocos integrantes & Medio & Asignación explícita de hitos y commits identificables por integrante en el repositorio \\
+Alcance del prototipo mayor al plazo disponible & Alto & Implementar por prioridad MoSCoW: los nueve requisitos \emph{Must} antes que cualquier \emph{Should} \\
 \bottomrule
 \end{tabular}
 \caption{Riesgos identificados}
@@ -493,22 +844,67 @@ Interfaz & \ph{tecnología} & \ph{justificación} \\
 
 \subsection{Riesgos de datos personales (Ley 21.719)}
 
-% Sección que casi nadie desarrolla bien. Conviene estructurarla así:
+La Ley 21.719, publicada en el Diario Oficial el 13 de diciembre de 2024, reforma el
+marco de la Ley 19.628 y crea la Agencia de Protección de Datos Personales como
+autoridad fiscalizadora. Su entrada en plena vigencia está fijada para el 1 de
+diciembre de 2026, dentro del horizonte de operación del sistema propuesto, por lo que
+el diseño debe considerarla desde ahora. Cabe consignar que a agosto de 2026 el
+Gobierno manifestó estar evaluando una eventual postergación de esa fecha, asociada a
+la conformación del Consejo Directivo de la Agencia; mientras no exista modificación
+legal, el 1 de diciembre de 2026 sigue siendo el plazo vigente. Un aspecto relevante
+para este caso es que la ley cubre los datos de trabajadores y no solamente los de
+clientes.
 
-\paragraph{Datos personales tratados.} \ph{qué datos y de quién}
+\paragraph{Datos personales tratados.} Nombre y rol de los trabajadores de IMELSE que
+integran las cuadrillas, incluidos los estudiantes en formación dual; la asociación
+entre cada trabajador y los registros que genera, con marca de fecha y hora; y las
+fotografías de evidencia, en las que puede aparecer incidentalmente personal del local
+o del cliente.
 
-\paragraph{Finalidad declarada.} \ph{para qué se tratan}
+\paragraph{Finalidad declarada.} Acreditar la ejecución de la mantención preventiva
+por tablero ante el cliente corporativo y permitir a la gerencia de IMELSE verificar
+la cobertura del contrato. La finalidad es de control de proceso y de respaldo
+contractual.
 
-\paragraph{Base de licitud.} \ph{fundamento del tratamiento}
+\paragraph{Base de licitud.} El tratamiento se funda en la ejecución del contrato de
+servicios con el cliente corporativo y en la relación laboral, en tanto el registro
+documenta una obligación contractual de la empresa y la actividad se realiza en el
+marco de las funciones del trabajador. No se recurre al consentimiento como base,
+precisamente porque en una relación laboral el consentimiento difícilmente puede
+considerarse libre.
 
-\paragraph{Minimización.} \ph{qué datos se decide NO capturar y por qué}
+\paragraph{Minimización.} El diseño incorpora tres decisiones de minimización. No se
+captura la geolocalización del dispositivo, dado que la identificación del tablero ya
+establece el lugar de ejecución del trabajo y la ubicación adicional no aporta a la
+finalidad declarada. Las fotografías se acotan al equipo intervenido, con instrucción
+explícita de no registrar personas. Y no se registran tiempos de permanencia más allá
+de las marcas de captura estrictamente necesarias para calcular el indicador de
+latencia.
 
-\paragraph{Conservación.} \ph{cuánto tiempo y con qué justificación}
+\paragraph{Conservación.} Los registros y su evidencia se conservan mientras dure la
+vigencia del contrato de servicios más el período de eventuales reclamaciones
+asociadas, dado que su finalidad es acreditar el cumplimiento ante el cliente. Cumplido
+ese plazo, los datos que identifican al trabajador pueden disociarse conservando el
+registro técnico del tablero, que es lo que sostiene el historial de RF-09.
 
-\paragraph{Riesgo específico.} % El sistema registra desempeño individual de trabajadores.
-\ph{texto}
+\paragraph{Riesgo específico.} El riesgo principal del sistema es que, por diseño,
+registra qué trabajador ejecutó qué intervención y en qué momento. Aunque la finalidad
+declarada sea el control del proceso, el mismo dato permite construir una evaluación
+individual de desempeño, uso distinto del declarado. Las medidas adoptadas son cuatro:
+transparencia previa hacia los trabajadores sobre qué se registra y para qué; acceso
+restringido por rol, de modo que la vista individual no esté disponible en el panel de
+gerencia; definición de indicadores de proceso y no de persona, decisión ya
+materializada en el descarte del indicador de productividad individual; y la
+recomendación de realizar una evaluación de impacto en protección de datos antes de la
+puesta en producción, considerando que se trata de un tratamiento sistemático de datos
+de trabajadores.
 
-\paragraph{Medidas en el prototipo.} \ph{datos ficticios, control de acceso, etc.}
+\paragraph{Medidas en el prototipo.} El prototipo de la Entrega 2 operará
+exclusivamente con datos ficticios: no se cargarán nombres reales de trabajadores de
+IMELSE, ni códigos o direcciones reales de locales del cliente corporativo, ni
+fotografías tomadas en instalaciones reales. El control de acceso por rol se
+implementará desde el inicio y no como agregado posterior, de modo que la restricción
+de visibilidad sea verificable en la demostración.
 
 % ============================================================
 % ANEXOS
@@ -518,7 +914,38 @@ Interfaz & \ph{tecnología} & \ph{justificación} \\
 \section{Anexos}
 
 \subsection{Evidencia fotográfica}
-% Capturas numeradas: sitio web, acta, fichas anonimizadas, registro de la visita.
+
+\begin{figure}[h]\centering
+  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-01-sitio.png}
+  \caption{Evidencia 1: sitio web institucional, consultado el 01/09/2026}
+  \label{fig:ev01}
+\end{figure}
+
+\begin{figure}[h]\centering
+  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-02-acta.png}
+  \caption{Evidencia 2: acta de entrevista firmada por el Gerente de Operaciones,
+  06/09/2026}
+  \label{fig:ev02}
+\end{figure}
+
+\begin{figure}[h]\centering
+  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-03-checklist.png}
+  \caption{Evidencia 3: ficha de checklist en uso, anonimizada}
+  \label{fig:ev03}
+\end{figure}
+
+\begin{figure}[h]\centering
+  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-04-termografia.png}
+  \caption{Evidencia 4: hoja de registro de tableros con termografía, anonimizada}
+  \label{fig:ev04}
+\end{figure}
+
+\begin{figure}[h]\centering
+  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-05-visita.png}
+  \caption{Evidencia 5: registro fotográfico de la visita a dependencias,
+  06/09/2026}
+  \label{fig:ev05}
+\end{figure}
 
 % \begin{figure}[h]\centering
 %   \includegraphics[width=0.8\linewidth]{assets/ev-01-sitio.png}
@@ -528,9 +955,13 @@ Interfaz & \ph{tecnología} & \ph{justificación} \\
 \subsection{Estructura del repositorio}
 \begin{verbatim}
 README.md
-docs/  00-caso-pyme.md  01-requerimientos.md  02-bpmn.md  03-er-preliminar.md
-assets/
-informe/
+docs/     00-caso-pyme.md  01-requerimientos.md
+          02-bpmn.md  03-er-preliminar.md  anexo-entrevista.md
+assets/   bpmn-as-is-imelse.bpm  bpmn-to-be-imelse.bpm
+          bpmn-asis-1..3.png  bpmn-tobe-1..3.png  er-preliminar.png
+          evidencia/
+informe/  ICN292_P###_E1_Apellido1_Apellido2.pdf
+          ICN292_P###_E1_Apellido1_Apellido2.tex
 \end{verbatim}
 
 \end{document}
