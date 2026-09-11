@@ -1,0 +1,96 @@
+Table Cliente {
+  id_cliente integer [pk]
+  razon_social varchar
+  unidad_negocio varchar
+}
+
+Table Local {
+  id_local integer [pk]
+  id_cliente integer [ref: > Cliente.id_cliente]
+  nombre varchar
+  direccion varchar
+  comuna varchar
+}
+
+Table Tablero {
+  id_tablero integer [pk]
+  id_local integer [ref: > Local.id_local]
+  codigo varchar
+  ubicacion varchar
+  tipo varchar
+
+  indexes {
+    (id_local, codigo) [unique]
+  }
+}
+
+Table Ciclo {
+  id_ciclo integer [pk]
+  anio integer
+  periodo integer
+  fecha_inicio date
+}
+
+Table Visita {
+  id_visita integer [pk]
+  id_local integer [ref: > Local.id_local]
+  id_ciclo integer [ref: > Ciclo.id_ciclo]
+  fecha date
+  estado varchar
+}
+
+Table Usuario {
+  id_usuario integer [pk]
+  nombre varchar
+  rol varchar
+}
+
+Table Cuadrilla {
+  id_visita integer [ref: > Visita.id_visita]
+  id_usuario integer [ref: > Usuario.id_usuario]
+  funcion varchar
+
+  indexes {
+    (id_visita, id_usuario) [pk]
+  }
+}
+
+Table ItemChecklist {
+  id_item integer [pk]
+  descripcion varchar
+  orden integer
+  obligatorio boolean
+}
+
+Table RegistroItem {
+  id_registro integer [pk]
+  id_visita integer [ref: > Visita.id_visita]
+  id_tablero integer [ref: > Tablero.id_tablero]
+  id_item integer [ref: > ItemChecklist.id_item]
+  id_usuario integer [ref: > Usuario.id_usuario]
+  resultado varchar
+  ts_captura timestamp
+}
+
+Table Evidencia {
+  id_evidencia integer [pk]
+  id_registro integer [ref: > RegistroItem.id_registro]
+  archivo varchar
+  ts timestamp
+  hash varchar
+}
+
+Table Pendiente {
+  id_pendiente integer [pk]
+  id_visita integer [ref: > Visita.id_visita]
+  id_tablero integer [ref: > Tablero.id_tablero]
+  motivo varchar
+  comentario text
+}
+
+Table Hallazgo {
+  id_hallazgo integer [pk]
+  id_registro integer [ref: > RegistroItem.id_registro]
+  criticidad varchar
+  descripcion text
+}
