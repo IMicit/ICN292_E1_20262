@@ -418,15 +418,6 @@ junto con las imágenes exportadas.
 
 \subsection{Proceso as-is}
 
-\begin{landscape}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{assets/bpmn-as-is-imelse.png}
-  \caption{Proceso as-is: desde la recepción de la orden hasta el cierre e informe}
-  \label{fig:asis}
-\end{figure}
-\end{landscape}
-
 \paragraph{Puntos críticos identificados.}
 El tramo de cierre, representado en la Figura \ref{fig:asis}, concentra las
 debilidades del proceso actual. La generación del informe está condicionada al
@@ -444,16 +435,18 @@ tableros existentes en el local. El cumplimiento se declara en el formulario
 verbalmente, sin quedar registrados ni corregidos, tal como consigna la anotación
 respectiva en la Figura \ref{fig:asis}.
 
-\subsection{Proceso to-be}
-
-\begin{landscape}
-\begin{figure}[H]
+\clearpage
+\begin{figure}[p]
   \centering
-  \includegraphics[width=\linewidth]{assets/bpmn-to-be-imelse.png}
-  \caption{Proceso to-be con la intervención del SIG}
-  \label{fig:tobe}
+  \vspace*{\fill}
+  \includegraphics[angle=90, width=0.92\textwidth, height=0.88\textheight, keepaspectratio]{bpmn-as-is-imelse.png}
+  \caption{Proceso as-is: desde la recepción de la orden hasta el cierre e informe}
+  \label{fig:asis}
+  \vspace*{\fill}
 \end{figure}
-\end{landscape}
+\clearpage
+
+\subsection{Proceso to-be}
 
 \paragraph{Nota de notación.} El subproceso \emph{Realizar mantenimiento por tablero}
 se representa con marcador de múltiple instancia secuencial, indicando que se ejecuta
@@ -464,6 +457,15 @@ deliberada y expresa que la revisión de gerencia dejó de ser un paso bloqueant
 proceso operativo. Las cuatro representaciones del almacén \emph{Sistema de registro
 SIG} corresponden al mismo repositorio lógico, y se repiten únicamente por legibilidad
 del diagrama.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[angle=90, width=0.48\textheight, height=0.95\textwidth, keepaspectratio]{bpmn-to-be-imelse.png}
+  \caption{Proceso to-be con la intervención del SIG}
+  \label{fig:tobe}
+\end{figure}
+
+\clearpage
 
 \subsection{Explicación de las mejoras}
 
@@ -523,16 +525,17 @@ asociación de datos.
 % ============================================================
 % E. MODELO DE DATOS PRELIMINAR
 % ============================================================
-\newpage
+\clearpage
 \section{Modelo de datos preliminar}
-\begin{landscape}
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{assets/er-preliminar.png}
+  \includegraphics[angle=90, width=0.88\textwidth, height=0.78\textheight, keepaspectratio]{er-preliminar.png}
   \caption{Modelo entidad-relación preliminar}
   \label{fig:er}
 \end{figure}
-\end{landscape}
+
+\clearpage
 
 \subsection{Entidades y claves}
 
@@ -839,7 +842,7 @@ de visibilidad sea verificable en la demostración.
 % ============================================================
 % ANEXOS
 % ============================================================
-\newpage
+\vspace{1.2cm}
 \appendix
 \section{Anexos}
 
