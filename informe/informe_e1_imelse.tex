@@ -9,28 +9,25 @@
 %  ESTRUCTURA OBLIGATORIA (secciones A–G del enunciado).
 %  No cambiar el orden ni los títulos: el corrector revisa por ellos.
 %
-%  PENDIENTES: buscar "\ph{" para localizar todo lo que falta completar.
-% ============================================================
+%============================================================
 
-\documentclass[11pt,letterpaper]{article}
+\documentclass[10pt,letterpaper]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[spanish,es-noquoting]{babel}   % en Overleaf funciona; si falla localmente, comentar
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[margin=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{float}
 \usepackage{pdflscape}      % páginas apaisadas para los BPMN
 \usepackage{caption}
 \usepackage{enumitem}
-\usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage[hidelinks]{hyperref}
-
-\definecolor{azulusm}{RGB}{0,51,102}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -40,10 +37,6 @@
 
 \captionsetup{font=small,labelfont=bf}
 \setlist{itemsep=2pt,parsep=0pt}
-
-% Marcador de posición: escribir \ph{texto} donde falte contenido.
-% Al terminar el informe, buscar "\ph{" para verificar que no quede ninguno.
-\newcommand{\ph}[1]{\textit{\textcolor{gray}{[#1]}}}
 
 % ---------- Datos editables ----------
 \newcommand{\paralelo}{P100}
@@ -72,11 +65,11 @@
 \toprule
 \textbf{Nombre} & \textbf{RUT} & \textbf{ROL USM} & \textbf{Rol en el equipo} \\
 \midrule
-Javier Bravo    & 21.330.540-9 & 202360638-3 & \ph{rol} \\
-Benjamín Eliz   & 21.803.009-2 & 202360632-4 & \ph{rol} \\
-Cristóbal Muñoz & 21.657.535-0 & 202360603-0 & \ph{rol} \\
-Nicolás Oyarzún & 21.762.466-5 & 202404599-7 & \ph{rol} \\
-Nicolás Soto    & 22.083.026-8 & 202460585-2 & \ph{rol} \\
+Javier Bravo    & 21.330.540-9 & 202360638-3 & Modelo de datos \\
+Benjamín Eliz   & 21.803.009-2 & 202360632-4 & Revisión y autenticación \\
+Cristóbal Muñoz & 21.657.535-0 & 202360603-0 & Documentación y QA \\
+Nicolás Oyarzún & 21.762.466-5 & 202404599-7 & Registro en terreno \\
+Nicolás Soto & 22.083.026-8 & 202460585-2 & Panel e informes \\
 \bottomrule
 \end{tabular}
 
@@ -100,7 +93,7 @@ Fecha de entrega: 12 de septiembre de 2026}
 
 \subsection{Identificación de la PYME}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{4.5cm}p{10cm}@{}}
@@ -137,19 +130,18 @@ operada y mantenida sin personal técnico dedicado.
 
 \subsection{Evidencia de existencia}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}clll@{}}
 \toprule
 \textbf{N°} & \textbf{Evidencia} & \textbf{Fecha} & \textbf{Referencia} \\
 \midrule
-1 & Sitio web institucional \url{https://imelse.cl} & 01/09/2026 & Anexo, Figura \ph{X} \\
-2 & Acta de entrevista firmada por el Gerente de Operaciones & 01/09/2026 & Anexo, Figura \ph{X} \\
-3 & Fichas de checklist en uso & 06/09/2026 & Anexo, Figura \ph{X} \\
-4 & Hoja de registro de tableros con termografía (anonimizada) & 06/09/2026 & Anexo, Figura \ph{X} \\
-5 & Registro fotográfico de la visita a dependencias & 06/09/2026 & Anexo, Figura \ph{X} \\
-6 & Transcripción completa de la entrevista & 01/09/2026 & \texttt{docs/anexo-entrevista.md} \\
+1 & Sitio web institucional \url{https://imelse.cl} & 01/09/2026 & \texttt{assets/ev-01-sitio.png} \\
+2 & Acta de entrevista firmada por el Gerente de Operaciones & 01/09/2026 & \texttt{assets/ev-02-acta.pdf} \\
+3 & Fichas de checklist y hoja de servicio en uso (anonimizadas) & 06/09/2026 & \texttt{assets/ev-05-ficha-checklist.pdf} \\
+4 & Registro fotográfico de la visita a dependencias & 06/09/2026 & \texttt{assets/ev-06-visita.pdf} \\
+5 & Transcripción completa de la entrevista & 01/09/2026 & \texttt{docs/03-transcripcion-entrevista.pdf} \\
 \bottomrule
 \end{tabular}
 \caption{Evidencia verificable del caso}
@@ -157,8 +149,8 @@ operada y mantenida sin personal técnico dedicado.
 
 \paragraph{Entrevista.}
 La caracterización del proceso y del problema proviene de una entrevista
-semiestructurada al Gerente de Operaciones de IMELSE, \ph{nombre}, realizada el
-\ph{fecha} en \ph{lugar}. La pauta utilizada, el acta firmada y la transcripción
+semiestructurada al Gerente de Operaciones de IMELSE, Francisco Meza, realizada el
+01/09/2026 en dependencias de la empresa. La pauta utilizada, el acta firmada y la transcripción
 completa se encuentran en el repositorio. El entrevistado autorizó el uso académico
 del material en el marco de este curso.
 
@@ -209,7 +201,7 @@ de los resultados esperados del sistema propuesto.
 
 \paragraph{Impacto.}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{2.6cm}p{6.2cm}p{5.6cm}@{}}
@@ -272,7 +264,7 @@ concentran el riesgo contractual y el costo de re-visita.
 
 \subsection{Actores y roles}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{3.6cm}p{2.2cm}p{8.8cm}@{}}
@@ -286,6 +278,7 @@ Programación / oficina & Humano & Confirma el ciclo, asigna cuadrilla y fecha \
 Administración y bodega & Humano & Gestiona la entrega de materiales y el stock \\
 Gerencia de Operaciones & Humano & Consulta el panel, revisa cobertura, pendientes y hallazgos \\
 Cliente corporativo & Externo & Recibe el aviso de servicio y el informe de la visita \\
+Encargado del local & Externo & Valida la presencia de la cuadrilla mediante firma en el dispositivo \\
 Plataforma SIG & Sistema & Genera visitas, valida cobertura, cierra visitas y genera informes \\
 \bottomrule
 \end{tabular}
@@ -306,7 +299,7 @@ Plataforma SIG & Sistema & Genera visitas, valida cobertura, cierra visitas y ge
 
 \subsubsection*{Fuera del alcance}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{5cm}p{9.5cm}@{}}
@@ -326,8 +319,6 @@ Equipos de frío & El alcance técnico de IMELSE llega hasta el punto eléctrico
 
 \subsection{Requisitos funcionales}
 
-% NOTA: completar RF-10 a RF-18 desde docs/01-requerimientos.md manteniendo la numeración.
-
 \begin{longtable}{@{}p{1.4cm}p{8.4cm}p{1.8cm}p{1.6cm}p{1.4cm}@{}}
 \toprule
 \textbf{ID} & \textbf{Requisito} & \textbf{Actor} & \textbf{Prioridad} & \textbf{Origen} \\
@@ -346,16 +337,15 @@ RF-10 & El sistema debe registrar los hallazgos detectados durante la visita, cl
 RF-11 & El sistema debe registrar los materiales o repuestos faltantes detectados en terreno, asociados al local y a la visita & Técnico & S & P6 \\
 RF-12 & El sistema debe entregar a la gerencia un panel con el porcentaje de cobertura de tableros y de visitas completas por local y por ciclo & Gerente & S & P3, P5 \\
 RF-13 & El sistema debe generar el informe de mantención en formato exportable, con la evidencia asociada, para su envío al cliente & Administración & S & P4 \\
-RF-14 & El sistema debe administrar usuarios y perfiles de acceso diferenciados para técnico, gerencia y administración & Gerente & S & - \\
+RF-14 & El sistema debe administrar usuarios y perfiles de acceso diferenciados para técnico, gerencia y administración & Gerente & S & --- \\
 RF-15 & El sistema debe arrastrar automáticamente los pendientes declarados de un ciclo a la planificación del ciclo siguiente & Gerente & C & P3 \\
-RF-16 & El sistema debe permitir al encargado del local validar la presencia de la cuadrilla mediante firma en el dispositivo & Encargado & C & - \\
+RF-16 & El sistema debe permitir al encargado del local validar la presencia de la cuadrilla mediante firma en el dispositivo & Encargado & C & --- \\
 RF-17 & El sistema debe registrar las mediciones numéricas de termografía asociadas a cada tablero & Técnico & C & P5 \\
-RF-18 & El sistema debe notificar automáticamente a la gerencia cuando una visita se cierra con pendientes críticos & Sistema & C & P5 \\
-
+RF-18 & El sistema debe notificar automáticamente a la gerencia cuando una visita se cierra con pendientes críticos & Plataforma & C & P5 \\
 \bottomrule
-\caption{Requisitos funcionales priorizados (MoSCoW). Se presentan los nueve
-requisitos de prioridad \emph{Must}; el listado completo de 18 requisitos se
-encuentra en \texttt{docs/01-requerimientos.md}.}
+\caption{Requisitos funcionales priorizados (MoSCoW), trazados a las manifestaciones
+del problema. El detalle de cada requisito se encuentra en
+\texttt{docs/01-requerimientos.md}.}
 \end{longtable}
 
 \subsection{Requisitos no funcionales}
@@ -368,33 +358,29 @@ encuentra en \texttt{docs/01-requerimientos.md}.}
 RNF-01 & El registro debe poder completarse sin conexión y sincronizarse al recuperar señal, dado que las salas de tableros pueden carecer de cobertura celular & Disponibilidad & M \\
 RNF-02 & Un registro cerrado no puede modificarse; las correcciones generan un registro nuevo con autor y fecha, conservando el original & Integridad & M \\
 RNF-03 & El registro de un tablero debe completarse en un máximo de cinco interacciones, siendo operable con una mano y con guantes de seguridad & Usabilidad & M \\
-RNF-04 & El sistema debe soportar el volumen de evidencia del ciclo: aproximadamente 30 visitas mensuales con ~20 tableros cada una, con al menos una fotografía por tablero & Rendimiento & M \\
+RNF-04 & El sistema debe soportar el volumen de evidencia del ciclo: aproximadamente 30 visitas mensuales con unos 20 tableros cada una, con al menos una fotografía por tablero & Rendimiento & M \\
 RNF-05 & El acceso debe estar controlado por perfil, y cada acción sobre un registro debe quedar atribuida a un usuario identificado & Seguridad & M \\
-RNF-06 & El tratamiento de datos personales de trabajadores y de terceros debe ajustarse a la Ley 21.719, con minimización de datos y finalidad declarada & Rendimiento & M \\
+RNF-06 & El tratamiento de datos personales de trabajadores y de terceros debe ajustarse a la Ley 21.719, con minimización de datos y finalidad declarada & Cumplimiento & M \\
 RNF-07 & El sistema debe ejecutarse en dispositivos móviles Android de gama media, sin requerir hardware especializado & Compatibilidad & S \\
 RNF-08 & Las fotografías deben comprimirse antes de la sincronización, sin perder legibilidad de la identificación del tablero ni de las conexiones & Rendimiento & S \\
 RNF-09 & El prototipo de la Entrega 2 debe ser reproducible en localhost a partir del repositorio, con instrucciones en el README & Mantenibilidad & M \\
 RNF-10 & El sistema debe conservar la evidencia por al menos el período de vigencia del contrato de mantención & Cumplimiento & S \\
 \bottomrule
-\caption{Requisitos no funcionales. Se presentan los tres de prioridad \emph{Must};
-el listado completo de 10 requisitos se encuentra en
-\texttt{docs/01-requerimientos.md}.}
+\caption{Requisitos no funcionales priorizados (MoSCoW). El detalle de cada requisito
+se encuentra en \texttt{docs/01-requerimientos.md}.}
 \end{longtable}
 
-\paragraph{Nota sobre RNF-01.} La exigencia de operación sin conexión depende de la
-disponibilidad de señal celular en las salas eléctricas de los locales, consulta
-formulada a la empresa y sin respuesta al cierre de este informe. El requisito se
-mantiene como \emph{Must} por criterio conservador, y su realización se declara fuera
-del alcance del prototipo de la Entrega 2 en la sección \ref{sec:alcance-prototipo}.
-
-\paragraph{Nota sobre RNF-03.} El límite de cinco interacciones responde a que
-aproximadamente el 40 por ciento del personal de apoyo corresponde a estudiantes
-duales en rotación, por lo que el sistema no puede suponer entrenamiento acumulado ni
-familiaridad con la herramienta.
+Dos precisiones. La exigencia de operación sin conexión (RNF-01) depende de la
+disponibilidad de señal celular en las salas eléctricas, consulta enviada a la empresa
+y sin respuesta al cierre de este informe; se mantiene como \emph{Must} por criterio
+conservador y se declara fuera del alcance del prototipo en la sección
+\ref{sec:alcance-prototipo}. El límite de cinco interacciones (RNF-03) responde a que
+cerca del 40 por ciento del personal de apoyo son estudiantes duales en rotación, por
+lo que el sistema no puede suponer entrenamiento acumulado.
 
 \subsection{Trazabilidad problema $\rightarrow$ requisito}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{1.2cm}p{6.3cm}p{6.8cm}@{}}
@@ -403,10 +389,10 @@ familiaridad con la herramienta.
 \midrule
 P1 & Traspaso de información diferido & RF-02, RF-08 \\
 P2 & Registro no verificable & RF-03, RF-04, RF-05, RNF-02 \\
-P3 & Cobertura de tableros incierta & RF-01, RF-06, RF-07 \\
-P4 & Pérdida de evidencia & RF-04, RF-05 \\
-P5 & Detección tardía y reactiva & RF-06, RF-08, RF-09 \\
-P6 & Re-trabajo en abastecimiento & RF-09 \\
+P3 & Cobertura de tableros incierta & RF-01, RF-06, RF-07, RF-12, RF-15 \\
+P4 & Pérdida de evidencia & RF-04, RF-05, RF-13 \\
+P5 & Detección tardía y reactiva & RF-06, RF-08, RF-09, RF-10, RF-18 \\
+P6 & Re-trabajo en abastecimiento & RF-09, RF-11 \\
 \bottomrule
 \end{tabular}
 \caption{Trazabilidad entre las manifestaciones del problema y los requisitos}
@@ -426,39 +412,23 @@ rediseño se acotan a la rama de \textbf{mantención preventiva bajo contrato},
 coherente con el alcance declarado en la sección anterior. Las ramas de correctivos y
 proyectos se representan sin desarrollo interno y no son objeto de rediseño.
 
-Por su extensión, tanto el proceso as-is como el to-be se presentan en tres figuras
-correspondientes a los tramos de recepción y despacho, preparación y ejecución en
-terreno, y cierre e informe. Los archivos fuente en formato Bizagi
-(\texttt{bpmn-as-is-imelse.bpm} y \texttt{bpmn-to-be-imelse.bpm}) están disponibles en
-\texttt{assets/} del repositorio.
+Los archivos fuente en formato Bizagi (\texttt{bpmn-as-is-imelse.bpm} y
+\texttt{bpmn-to-be-imelse.bpm}) están disponibles en \texttt{assets/} del repositorio,
+junto con las imágenes exportadas.
 
 \subsection{Proceso as-is}
 
 \begin{landscape}
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
-  % \includegraphics[width=\linewidth]{assets/bpmn-asis-1.png}
-  \caption{Proceso as-is (1 de 3): recepción de la orden y despacho de la cuadrilla}
-  \label{fig:asis1}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  % \includegraphics[width=\linewidth]{assets/bpmn-asis-2.png}
-  \caption{Proceso as-is (2 de 3): preparación de materiales y ejecución en terreno}
-  \label{fig:asis2}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  % \includegraphics[width=\linewidth]{assets/bpmn-asis-3.png}
-  \caption{Proceso as-is (3 de 3): cierre, informe y bucles de re-trabajo}
-  \label{fig:asis3}
+  \includegraphics[width=\linewidth]{assets/bpmn-as-is-imelse.png}
+  \caption{Proceso as-is: desde la recepción de la orden hasta el cierre e informe}
+  \label{fig:asis}
 \end{figure}
 \end{landscape}
 
 \paragraph{Puntos críticos identificados.}
-El tramo de cierre, representado en la Figura \ref{fig:asis3}, concentra las
+El tramo de cierre, representado en la Figura \ref{fig:asis}, concentra las
 debilidades del proceso actual. La generación del informe está condicionada al
 retorno físico de la cuadrilla a dependencias de IMELSE, y un evento temporizador de
 16 a 24 horas separa la ejecución en terreno de la disponibilidad de la información en
@@ -472,33 +442,16 @@ ninguna compuerta que verifique que los tableros intervenidos correspondan a los
 tableros existentes en el local. El cumplimiento se declara en el formulario
 \emph{Lista de chequeo} sin contraste posible, y los pendientes se comunican
 verbalmente, sin quedar registrados ni corregidos, tal como consigna la anotación
-respectiva en la Figura \ref{fig:asis3}.
+respectiva en la Figura \ref{fig:asis}.
 
 \subsection{Proceso to-be}
 
 \begin{landscape}
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
-  % \includegraphics[width=\linewidth]{assets/bpmn-tobe-1.png}
-  \caption{Proceso to-be (1 de 3): programación del ciclo y despacho, con la
-  incorporación del carril de la plataforma}
-  \label{fig:tobe1}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  % \includegraphics[width=\linewidth]{assets/bpmn-tobe-2.png}
-  \caption{Proceso to-be (2 de 3): ejecución en terreno mediante el subproceso de
-  múltiple instancia \emph{Realizar mantenimiento por tablero}}
-  \label{fig:tobe2}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  % \includegraphics[width=\linewidth]{assets/bpmn-tobe-3.png}
-  \caption{Proceso to-be (3 de 3): validación de cobertura, cierre de la visita y
-  consulta de gerencia desacoplada del flujo}
-  \label{fig:tobe3}
+  \includegraphics[width=\linewidth]{assets/bpmn-to-be-imelse.png}
+  \caption{Proceso to-be con la intervención del SIG}
+  \label{fig:tobe}
 \end{figure}
 \end{landscape}
 
@@ -536,7 +489,7 @@ dependencia del retorno a dependencias de IMELSE para generar el informe, y la s
 informal por pendiente sin registro, que pasa a ser un estado registrado con motivo y
 autor.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \begin{tabular}{lcc}
 \toprule
@@ -572,11 +525,10 @@ asociación de datos.
 % ============================================================
 \newpage
 \section{Modelo de datos preliminar}
-
 \begin{landscape}
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
-  % \includegraphics[width=\linewidth]{assets/er-preliminar.png}
+  \includegraphics[width=\linewidth]{assets/er-preliminar.png}
   \caption{Modelo entidad-relación preliminar}
   \label{fig:er}
 \end{figure}
@@ -584,7 +536,7 @@ asociación de datos.
 
 \subsection{Entidades y claves}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{2.4cm}p{2.8cm}p{3.2cm}p{5.6cm}@{}}
@@ -647,7 +599,7 @@ que la validación de cobertura opera por identificador interno.
 
 \subsection{Trazabilidad proceso $\leftrightarrow$ datos}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{6cm}p{8.5cm}@{}}
@@ -701,58 +653,38 @@ registros históricos.
 
 \subsection{Componentes lógicos}
 
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{@{}p{3.2cm}p{5.5cm}p{6cm}@{}}
-\toprule
-\textbf{Capa} & \textbf{Función} & \textbf{Realización en el caso} \\
-\midrule
-Captura de datos & Registrar la ejecución en el punto y momento en que ocurre & Aplicación web responsiva utilizada desde el teléfono por la cuadrilla, con captura de fotografía desde la cámara del dispositivo \\
-Persistencia & Almacenar de forma íntegra los registros y su evidencia & Base de datos relacional con el esquema del modelo ER, más almacenamiento de archivos para las fotografías, referenciadas por ruta y hash \\
-Analítica / KPI & Transformar los registros en indicadores de proceso & Vistas y consultas sobre cobertura de tableros, visitas completas y latencia del registro \\
-Interfaz & Exponer el estado a quien decide & Panel de gerencia con estado de visitas, pendientes y hallazgos, y generación del informe de visita \\
-\bottomrule
-\end{tabular}
-\caption{Arquitectura lógica por capas}
-\end{table}
+La solución se organiza en cuatro capas. La \textbf{captura} se realiza mediante una
+aplicación web responsiva usada desde el teléfono por la cuadrilla, con fotografía
+tomada desde la cámara del dispositivo. La \textbf{persistencia} combina una base de
+datos relacional con el esquema del modelo ER y almacenamiento de archivos para las
+imágenes, referenciadas por ruta y hash. La capa \textbf{analítica} expone los
+indicadores mediante vistas y consultas sobre cobertura de tableros, visitas completas
+y latencia. La \textbf{interfaz} entrega el panel de gerencia y la generación del
+informe de visita.
 
 \subsection{Stack tentativo para la Entrega 2}
 
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{@{}p{3.2cm}p{5cm}p{6.5cm}@{}}
-\toprule
-\textbf{Componente} & \textbf{Tecnología y versión} & \textbf{Justificación} \\
-\midrule
-Lenguaje & Python \ph{3.12.x} & Lenguaje dominado por el equipo; evita costo de aprendizaje dentro del plazo de la Entrega 2 \\
-Framework web & Django \ph{5.x} & Incluye ORM, panel de administración y sistema de autenticación por rol, lo que cubre gran parte de los requisitos sin desarrollo adicional \\
-Base de datos & PostgreSQL \ph{16.x}, con SQLite como alternativa de reproducción & Motor relacional acorde al modelo ER; SQLite simplifica la reproducción en localhost por parte del corrector \\
-Almacenamiento de imágenes & Sistema de archivos local, referenciado desde \texttt{Evidencia} & Evita dependencia de servicios externos y mantiene el prototipo reproducible sin credenciales \\
-Interfaz & Plantillas Django con diseño responsivo & Un único desarrollo sirve al panel de oficina y al uso en terreno \\
-\bottomrule
-\end{tabular}
-\caption{Stack tentativo}
-\end{table}
+Se propone Python 3.12 con Django 5 y PostgreSQL 16, con SQLite como alternativa para
+simplificar la reproducción por parte del corrector. Las imágenes se almacenan en el
+sistema de archivos local y se referencian desde \texttt{Evidencia}, evitando
+dependencias de servicios externos y credenciales. La interfaz se construye con
+plantillas Django de diseño responsivo, de modo que un único desarrollo sirva al panel
+de oficina y al uso en terreno.
 
-\paragraph{Criterio de selección.} El stack se eligió por dominio del equipo y por
-reproducibilidad, no por superioridad técnica. Dado que el prototipo debe levantarse
-en localhost por un tercero y que el plazo de la Entrega 2 es acotado, se privilegió
-un conjunto de herramientas conocidas y con configuración mínima por sobre
-alternativas de mejor rendimiento o mayor escalabilidad, que el problema de IMELSE no
-requiere: el volumen estimado es de aproximadamente 30 mantenciones preventivas
-mensuales con un orden de 20 tableros por local.
+El criterio de selección fue el dominio del equipo y la reproducibilidad, no la
+superioridad técnica: dado que el prototipo debe levantarse en localhost por un
+tercero y que el plazo es acotado, se privilegiaron herramientas conocidas y de
+configuración mínima por sobre alternativas de mayor escalabilidad, que el volumen del
+caso no requiere.
 
 \subsection{Reproducibilidad en localhost}
 
-El archivo \texttt{README.md} del repositorio documentará la secuencia completa de
-puesta en marcha: clonar el repositorio, crear el entorno virtual e instalar las
-dependencias declaradas en \texttt{requirements.txt}, aplicar las migraciones que
-construyen el esquema del modelo ER, cargar el conjunto de datos ficticios de prueba
-mediante \emph{fixtures}, y levantar el servidor de desarrollo. Los datos de prueba
-incluirán un cliente, dos locales con su catálogo de tableros, un ciclo y usuarios
-para cada rol, de modo que el flujo completo pueda recorrerse sin carga manual previa.
+El \texttt{README.md} documentará la puesta en marcha completa: clonar el repositorio,
+crear el entorno virtual, instalar las dependencias de \texttt{requirements.txt},
+aplicar las migraciones, cargar los datos ficticios de prueba y levantar el servidor.
+Los datos de prueba incluirán un cliente, dos locales con su catálogo de tableros, un
+ciclo y usuarios para cada rol, de modo que el flujo completo pueda recorrerse sin
+carga manual previa.
 
 \subsection{Alcance del prototipo}
 \label{sec:alcance-prototipo}
@@ -768,7 +700,7 @@ pero su implementación exige una capa de sincronización y resolución de confl
 excede el plazo disponible. Se prefiere declarar esta restricción antes que
 comprometerla y no cumplirla.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{5.5cm}p{3.5cm}p{3.5cm}@{}}
@@ -778,7 +710,7 @@ comprometerla y no cumplirla.
 Tasa de mantención completa & 80--85 \% (declarado) & $\geq$ 95 \% \\
 Cobertura de tableros por visita & No medible actualmente & $\geq$ 98 \% \\
 Latencia del registro & 16--24 h & $<$ 1 h \\
-Tasa de re-visita & \ph{por confirmar} & $-$50 \% \\
+Tasa de re-visita & No medido actualmente & $-$50 \% \\
 \bottomrule
 \end{tabular}
 \caption{Indicadores a implementar en la Entrega 2}
@@ -798,26 +730,23 @@ laboral. Esta decisión se retoma en la sección de riesgos de datos personales.
 
 \subsection{Hitos y responsables}
 
-% NOTA: asignación tentativa de responsables. Ajustar según acuerdo del equipo,
-% y completar las fechas una vez confirmada la fecha de la Entrega 2.
-
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}clp{5.5cm}p{3cm}@{}}
 \toprule
 \textbf{N°} & \textbf{Fecha} & \textbf{Hito} & \textbf{Responsable} \\
 \midrule
-1 & \ph{fecha} & Esquema de base de datos implementado y migrado & \ph{nombre} \\
-2 & \ph{fecha} & Carga del catálogo maestro y datos de prueba & \ph{nombre} \\
-3 & \ph{fecha} & Autenticación y perfiles por rol & \ph{nombre} \\
-4 & \ph{fecha} & Generación de visitas desde el ciclo & \ph{nombre} \\
-5 & \ph{fecha} & Registro guiado por tablero con evidencia obligatoria & \ph{nombre} \\
-6 & \ph{fecha} & Validación de cobertura y declaración de pendientes & \ph{nombre} \\
-7 & \ph{fecha} & Panel de gerencia e indicadores & \ph{nombre} \\
-8 & \ph{fecha} & Generación del informe de visita & \ph{nombre} \\
-9 & \ph{fecha} & Pruebas de reproducción en localhost por un integrante ajeno al desarrollo & \ph{nombre} \\
-10 & \ph{fecha} & Documentación final, README y entrega & \ph{nombre} \\
+1 & Semana 1 & Esquema de base de datos implementado y migrado & Javier Bravo \\
+2 & Semana 1 & Carga del catálogo maestro y datos de prueba & Javier Bravo \\
+3 & Semana 2 & Autenticación y perfiles por rol & Benjamín Eliz \\
+4 & Semana 2 & Generación de visitas desde el ciclo & Benjamín Eliz \\
+5 & Semana 3 & Registro guiado por tablero con evidencia obligatoria & Nicolás Oyarzún \\
+6 & Semana 3 & Validación de cobertura y declaración de pendientes & Nicolás Oyarzún \\
+7 & Semana 4 & Panel de gerencia e indicadores & Nicolás Soto \\
+8 & Semana 4 & Generación del informe de visita & Nicolás Soto \\
+9 & Semana 5 & Pruebas de reproducción en localhost por un integrante ajeno al desarrollo & Cristóbal Muñoz \\
+10 & Semana 5 & Documentación final, README y entrega & Cristóbal Muñoz \\
 \bottomrule
 \end{tabular}
 \caption{Hitos de la Entrega 2}
@@ -825,7 +754,7 @@ laboral. Esta decisión se retoma en la sección de riesgos de datos personales.
 
 \subsection{Riesgos del proyecto}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{@{}p{5.5cm}p{2cm}p{6.5cm}@{}}
@@ -916,53 +845,19 @@ de visibilidad sea verificable en la demostración.
 
 \subsection{Evidencia fotográfica}
 
-\begin{figure}[h]\centering
-  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-01-sitio.png}
-  \caption{Evidencia 1: sitio web institucional, consultado el 01/09/2026}
-  \label{fig:ev01}
-\end{figure}
-
-\begin{figure}[h]\centering
-  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-02-acta.png}
-  \caption{Evidencia 2: acta de entrevista firmada por el Gerente de Operaciones,
-  06/09/2026}
-  \label{fig:ev02}
-\end{figure}
-
-\begin{figure}[h]\centering
-  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-03-checklist.png}
-  \caption{Evidencia 3: ficha de checklist en uso, anonimizada}
-  \label{fig:ev03}
-\end{figure}
-
-\begin{figure}[h]\centering
-  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-04-termografia.png}
-  \caption{Evidencia 4: hoja de registro de tableros con termografía, anonimizada}
-  \label{fig:ev04}
-\end{figure}
-
-\begin{figure}[h]\centering
-  \includegraphics[width=0.8\linewidth]{assets/evidencia/ev-05-visita.png}
-  \caption{Evidencia 5: registro fotográfico de la visita a dependencias,
-  06/09/2026}
-  \label{fig:ev05}
-\end{figure}
-
-% \begin{figure}[h]\centering
-%   \includegraphics[width=0.8\linewidth]{assets/ev-01-sitio.png}
-%   \caption{Evidencia 1: sitio web institucional, consultado el \ph{fecha}}
-% \end{figure}
-
+Las evidencias citadas en la Tabla 2 se encuentran en assets/ y docs/ del repositorio, en los archivos \texttt{ev-01-sitio.png}, \texttt{ev-02-acta.pdf},
+\texttt{ev-05-ficha-checklist.pdf} y \texttt{ev-06-visita.pdf}.
 \subsection{Estructura del repositorio}
 \begin{verbatim}
 README.md
-docs/     00-caso-pyme.md  01-requerimientos.md
-          02-bpmn.md  03-er-preliminar.md  anexo-entrevista.md
-assets/   bpmn-as-is-imelse.bpm  bpmn-to-be-imelse.bpm
-          bpmn-asis-1..3.png  bpmn-tobe-1..3.png  er-preliminar.png
-          evidencia/
-informe/  ICN292_P###_E1_Apellido1_Apellido2.pdf
-          ICN292_P###_E1_Apellido1_Apellido2.tex
+docs/     00-caso-pyme.md  01-requerimientos.md  02-bpmn.md
+          03-transcripcion-entrevista.pdf
+assets/   bpmn-as-is-imelse.bpm   bpmn-as-is-imelse.png
+          bpmn-to-be-imelse.bpm   bpmn-to-be-imelse.png
+          er-preliminar.dbml      er-preliminar.png
+          ev-01 a ev-06 (evidencia)
+informe/  ICN292_P100_E1_Bravo_Eliz.pdf
+          ICN292_P100_E1_Bravo_Eliz.tex
 \end{verbatim}
 
 \end{document}
