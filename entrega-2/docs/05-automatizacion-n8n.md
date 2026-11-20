@@ -188,10 +188,7 @@ ejecuta y en el lienzo de n8n se ve avanzar nodo por nodo.
 
 ## 6. Limitaciones declaradas
 
-**El envío de correo necesita credenciales SMTP.** Para la demostración se usó
-[indicar cuál: cuenta de Gmail con contraseña de aplicación, o el nodo de
-correo simulado de n8n]. Si se usó el simulado, el correo no sale realmente del
-equipo y corresponde decirlo.
+**El envío de correo necesita credenciales SMTP.** El flujo no se ejecutó de extremo a extremo, así que el envío de correo está sin probar. Para probarlo hace falta una cuenta SMTP (por ejemplo, Gmail con contraseña de aplicación) o el nodo de correo simulado de n8n.
 
 **El token es compartido y está en el archivo del flujo.** En operación real
 iría en las credenciales de n8n, que las cifra, y no en el JSON exportado.
