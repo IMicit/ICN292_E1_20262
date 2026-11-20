@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+{% block titulo %}Historial {{ tablero.codigo }} · SIG IMELSE{% endblock %}
+{% block contenido %}
+<h1>Historial del tablero {{ tablero.codigo }}</h1>
+<p class="sub">
+  RF-09 · {{ tablero.local.cliente.razon_social }} · {{ tablero.local.nombre }} ·
+  {{ tablero.ubicacion }} · {{ tablero.get_tipo_display }}
+</p>
+
+{% for reg in registros %}
+  <div class="tarjeta {% if reg.cerrado %}sellada{% endif %}">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ reg.visita.ciclo }}</strong> · {{ reg.visita.fecha|date:"d/m/Y" }}
+        <div class="sub" style="margin:.15rem 0 0">
+          {{ reg.usuario.get_full_name|default:reg.usuario.username }} ·
+          {{ reg.evidencias.count }} fotografía(s) ·
+          {{ reg.hallazgos.count }} hallazgo(s)
+        </div>
+      </div>
+      {% if reg.cerrado %}<span class="ins verde">Sellado {{ reg.ts_cierre|date:"d/m/Y H:i" }}</span>
+      {% else %}<span class="ins ambar">Sin sellar</span>{% endif %}
+    </div>
+    {% if reg.hallazgos.all %}
+      {% for h in reg.hallazgos.all %}
+        <div style="margin-top:.5rem">
+          <span class="ins {% if h.criticidad == 'CRITICA' or h.criticidad == 'ALTA' %}rojo{% elif h.criticidad == 'MEDIA' %}ambar{% else %}gris{% endif %}">{{ h.get_criticidad_display }}</span>
+          {{ h.descripcion }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if reg.evidencias.all %}
+      <div class="galeria" style="margin-top:.7rem">
+        {% for e in reg.evidencias.all %}
+          <figure>
+            <a href="{{ e.archivo.url }}" target="_blank"><img src="{{ e.archivo.url }}" alt="Evidencia"></a>
+            <figcaption>{{ e.ts|date:"d/m/Y H:i" }}<br><span class="hash">{{ e.hash_corto }}…</span></figcaption>
+          </figure>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="fila" style="margin-top:.7rem">
+      <a class="btn chico sec" href="{% url 'tablero_registro' reg.visita.pk tablero.pk %}">Ver registro</a>
+    </div>
+  </div>
+{% empty %}
+  <div class="vacio">Este tablero no registra intervenciones.</div>
+{% endfor %}
+
+{% if pendientes %}
+  <h2>Ciclos en que quedó pendiente</h2>
+  {% for p in pendientes %}
+    <div class="tarjeta">
+      <span class="ins ambar">{{ p.get_motivo_display }}</span>
+      {{ p.visita.ciclo }} · {{ p.visita.fecha|date:"d/m/Y" }}
+      {% if p.comentario %}<div class="sub" style="margin:.3rem 0 0">{{ p.comentario }}</div>{% endif %}
+    </div>
+  {% endfor %}
+{% endif %}
+{% endblock %}

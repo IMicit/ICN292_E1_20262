@@ -1,0 +1,10 @@
+# SIG IMELSE — Entrega 2, ICN-292
+# Versiones fijadas para que el prototipo sea reproducible (RNF-09).
+
+Django==5.2.6
+Pillow==11.3.0
+reportlab==5.0.1      # informe de visita en PDF (RF-13)
+openpyxl==3.1.5       # planilla anual de control en Excel (RF-12)
+
+# Sólo si se ejecuta sobre PostgreSQL 16 en lugar de SQLite:
+# psycopg[binary]==3.2.9

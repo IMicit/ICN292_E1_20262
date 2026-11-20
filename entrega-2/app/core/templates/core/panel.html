@@ -1,0 +1,94 @@
+{% extends "core/base.html" %}
+{% block titulo %}Panel de cumplimiento · SIG IMELSE{% endblock %}
+{% block contenido %}
+<h1>Panel de cumplimiento</h1>
+<p class="sub">RF-12 · Cobertura de tableros y visitas completas por local y por ciclo.</p>
+
+<form method="get" class="fila" style="margin-bottom:1rem">
+  <label class="etq" style="margin:0">Ciclo</label>
+  <select class="campo" name="ciclo" style="width:auto" onchange="this.form.submit()">
+    {% for c in ciclos %}
+      <option value="{{ c.pk }}" {% if c.pk == ciclo.pk %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+<div class="kpis">
+  <div class="kpi">
+    <div class="valor">{{ cobertura_global }}%</div>
+    <div class="etiqueta">Cobertura de tableros</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">{{ pct_completas }}%</div>
+    <div class="etiqueta">Visitas completas</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">{{ visitas_completas }}/{{ total_visitas }}</div>
+    <div class="etiqueta">Visitas del ciclo</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">
+      {% if latencia_promedio %}{{ latencia_promedio }}<small style="font-size:.9rem"> min</small>
+      {% else %}—{% endif %}
+    </div>
+    <div class="etiqueta">Latencia del registro</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">{{ pendientes_criticos }}</div>
+    <div class="etiqueta">Pendientes críticos</div>
+  </div>
+</div>
+
+<p class="nota" style="margin-top:-.4rem">
+  La latencia es el promedio de minutos entre el último tablero sellado en
+  terreno y el cierre de la visita, sobre {{ latencia_n }} visita(s) cerrada(s) de
+  este ciclo. Es la misma definición y el mismo estadístico que publica
+  <code>03-latencia-del-registro.sql</code>, para que el panel y la consulta no
+  puedan dar números distintos. La línea base del diagnóstico, con el checklist
+  en papel, era de 16 a 24 horas. Se consideran
+  críticos los pendientes cuyo motivo no se resuelve solo en el ciclo siguiente:
+  sala sin acceso, equipo en operación y tablero inexistente.
+</p>
+
+<div class="envoltura-tabla">
+<table>
+  <thead>
+    <tr>
+      <th>Local</th><th>Fecha</th><th>Estado</th>
+      <th>Tableros</th><th>Pendientes</th><th>Cobertura</th><th>Latencia</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for f in filas %}
+    <tr>
+      <td><strong>{{ f.visita.local.nombre }}</strong><br>
+          <small class="sub">{{ f.visita.local.comuna }}</small></td>
+      <td>{{ f.visita.fecha|date:"d/m/Y" }}</td>
+      <td>
+        {% if f.visita.estado == "CERRADA" %}<span class="ins verde">Cerrada</span>
+        {% elif f.visita.estado == "EN_EJECUCION" %}<span class="ins ambar">En ejecución</span>
+        {% else %}<span class="ins gris">Planificada</span>{% endif %}
+      </td>
+      <td>{{ f.registrados }}/{{ f.esperados }}</td>
+      <td>{% if f.pendientes %}<span class="ins ambar">{{ f.pendientes }}</span>{% else %}—{% endif %}</td>
+      <td style="min-width:120px">
+        <div class="cobertura {% if f.cobertura < 50 %}baja{% elif f.cobertura < 100 %}parcial{% endif %}">
+          <i style="width:{{ f.cobertura }}%"></i>
+        </div>
+        <small>{{ f.cobertura }}%</small>
+      </td>
+      <td>{% if f.latencia %}{{ f.latencia|floatformat:1 }} min{% else %}—{% endif %}</td>
+      <td>
+        <a class="btn chico sec" href="{% url 'visita_detalle' f.visita.pk %}">Abrir</a>
+        {% if f.visita.estado == "CERRADA" %}
+          <a class="btn chico" href="{% url 'informe_visita' f.visita.pk %}">Informe</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="8" class="vacio">No hay visitas en este ciclo.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

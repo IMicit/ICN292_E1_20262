@@ -1,0 +1,157 @@
+{% extends "core/base.html" %}
+{% block titulo %}Informe {{ visita.local.nombre }} · SIG IMELSE{% endblock %}
+{% block contenido %}
+
+<div class="no-imprimir fila" style="margin-bottom:1rem">
+  <a class="btn sec" href="{% url 'panel' %}">&larr; Panel</a>
+  <button class="btn" style="margin-left:auto" onclick="window.print()">Imprimir / Guardar PDF</button>
+</div>
+
+<h1>Informe de mantención preventiva</h1>
+<p class="sub">
+  {{ visita.local.cliente.razon_social }} · {{ visita.local.nombre }}<br>
+  {{ visita.local.direccion }}, {{ visita.local.comuna }}<br>
+  {{ visita.ciclo }} · Visita del {{ visita.fecha|date:"d/m/Y" }}
+</p>
+
+<div class="kpis">
+  <div class="kpi">
+    <div class="valor">{{ visita.total_registrados }}/{{ visita.total_tableros }}</div>
+    <div class="etiqueta">Tableros intervenidos</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">{{ visita.porcentaje_cobertura }}%</div>
+    <div class="etiqueta">Cobertura</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">{{ pendientes|length }}</div>
+    <div class="etiqueta">Pendientes declarados</div>
+  </div>
+</div>
+
+{% if visita.ts_cierre %}
+<p class="sub">
+  Cerrada el {{ visita.ts_cierre|date:"d/m/Y H:i" }} por
+  {{ visita.cerrada_por.get_full_name|default:visita.cerrada_por.username }}.
+</p>
+{% endif %}
+
+{% if items_visita %}
+<h2>Pauta general de la visita</h2>
+<div class="envoltura-tabla">
+<table>
+  <thead><tr><th>Ítem</th><th>Resultado</th><th>Registró</th><th>Fecha y hora</th></tr></thead>
+  <tbody>
+  {% for r in items_visita %}
+    <tr>
+      <td>{{ r.item.codigo }} {{ r.item.descripcion }}</td>
+      <td><span class="ins {% if r.resultado == 'SI' %}verde{% elif r.resultado == 'NO' %}rojo{% else %}gris{% endif %}">{{ r.get_resultado_display }}</span></td>
+      <td>{{ r.usuario.get_full_name|default:r.usuario.username }}</td>
+      <td>{{ r.ts_captura|date:"d/m/Y H:i" }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+<h2>Detalle por tablero</h2>
+{% for reg in registros %}
+  <div class="tarjeta {% if reg.cerrado %}sellada{% endif %}">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ reg.tablero.codigo }}</strong> — {{ reg.tablero.ubicacion }}
+        <div class="sub" style="margin:.15rem 0 0">
+          {{ reg.tablero.get_tipo_display }} ·
+          {{ reg.usuario.get_full_name|default:reg.usuario.username }} ·
+          {{ reg.ts_cierre|date:"d/m/Y H:i"|default:"en captura" }}
+        </div>
+      </div>
+      {% if reg.cerrado %}<span class="ins verde">Sellado</span>
+      {% else %}<span class="ins ambar">Sin sellar</span>{% endif %}
+    </div>
+
+    <div class="envoltura-tabla" style="margin-top:.7rem">
+    <table>
+      <thead><tr><th>Ítem de la pauta</th><th>Resultado</th><th>Hora</th></tr></thead>
+      <tbody>
+      {% for r in reg.items.all %}
+        {% if r.vigente %}
+        <tr>
+          <td>{{ r.item.codigo }} {{ r.item.descripcion }}</td>
+          <td><span class="ins {% if r.resultado == 'SI' %}verde{% elif r.resultado == 'NO' %}rojo{% else %}gris{% endif %}">{{ r.get_resultado_display }}</span></td>
+          <td>{{ r.ts_captura|date:"H:i" }}</td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+
+    {% if reg.evidencias.all %}
+      <h3>Evidencia</h3>
+      <div class="galeria">
+        {% for e in reg.evidencias.all %}
+          <figure>
+            <img src="{{ e.archivo.url }}" alt="Evidencia">
+            <figcaption>
+              {% for i in e.items.all %}{{ i.codigo }}{% if not forloop.last %}, {% endif %}{% empty %}General{% endfor %} ·
+              {{ e.ts|date:"d/m H:i" }}<br>
+              <span class="hash">sha256 {{ e.hash_corto }}…</span>
+            </figcaption>
+          </figure>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if reg.hallazgos.all %}
+      <h3>Hallazgos</h3>
+      {% for h in reg.hallazgos.all %}
+        <div style="margin-bottom:.4rem">
+          <span class="ins {% if h.criticidad == 'CRITICA' or h.criticidad == 'ALTA' %}rojo{% elif h.criticidad == 'MEDIA' %}ambar{% else %}gris{% endif %}">{{ h.get_criticidad_display }}</span>
+          {{ h.descripcion }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if reg.observaciones.all %}
+      <h3>Observaciones anexadas</h3>
+      {% for o in reg.observaciones.all %}
+        <div class="cadena" style="margin-bottom:.4rem">
+          <strong>{{ o.autor.get_full_name|default:o.autor.username }}</strong>
+          ({{ o.autor.get_rol_display }}, {{ o.ts|date:"d/m/Y H:i" }}):
+          {{ o.texto }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% empty %}
+  <div class="vacio">Sin tableros registrados en esta visita.</div>
+{% endfor %}
+
+{% if pendientes %}
+<h2>Tableros no intervenidos</h2>
+<div class="envoltura-tabla">
+<table>
+  <thead><tr><th>Tablero</th><th>Motivo</th><th>Detalle</th><th>Declaró</th><th>Fecha</th></tr></thead>
+  <tbody>
+  {% for p in pendientes %}
+    <tr>
+      <td>{{ p.tablero.codigo }}<br><small class="sub">{{ p.tablero.ubicacion }}</small></td>
+      <td><span class="ins ambar">{{ p.get_motivo_display }}</span></td>
+      <td>{{ p.comentario|default:"—" }}</td>
+      <td>{{ p.usuario.get_full_name|default:p.usuario.username }}</td>
+      <td>{{ p.ts|date:"d/m/Y H:i" }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+<p class="nota" style="margin-top:2rem">
+  Documento generado por el SIG de IMELSE. Las fotografías llevan su huella
+  SHA-256 calculada en el momento de la captura. Ningún registro de este
+  informe fue modificado después de su cierre (RNF-02).
+</p>
+{% endblock %}

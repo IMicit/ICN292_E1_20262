@@ -1,0 +1,343 @@
+{% extends "core/base.html" %}
+{% block titulo %}{{ tablero.codigo }} · SIG IMELSE{% endblock %}
+{% block contenido %}
+
+<p class="sub" style="margin-bottom:.3rem">
+  <a href="{% url 'visita_detalle' visita.pk %}">&larr; {{ visita.local.nombre }}</a>
+</p>
+<h1>
+  {{ tablero.codigo }}
+  {% if registro.cerrado %}<span class="ins verde">Sellado</span>
+  {% elif editable %}<span class="ins ambar">En captura</span>{% endif %}
+</h1>
+<p class="sub">
+  {{ tablero.ubicacion }} · {{ tablero.get_tipo_display }} ·
+  Pauta N° 002190 · visita del {{ visita.fecha|date:"d/m/Y" }}
+</p>
+
+{% if registro.cerrado %}
+  <div class="tarjeta sellada">
+    Registro sellado el {{ registro.ts_cierre|date:"d/m/Y H:i" }} por
+    {{ registro.usuario.get_full_name|default:registro.usuario.username }}.
+    <div class="nota" style="margin-bottom:0">
+      RNF-02 · Lo registrado ya no se modifica ni se elimina, por nadie.
+      Si hay algo que corregir, se anexa una observación: el registro original
+      queda visible y la observación queda a su lado, con autor y fecha.
+    </div>
+  </div>
+{% endif %}
+
+{# ---------------------------------------------------------------- Pauta #}
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="accion" value="guardar">
+  <div class="tarjeta">
+    <strong>Lista de chequeo del tablero</strong>
+    {% if editable %}
+      <p class="nota">
+        RF-03 · Un ítem marcado «Sí» sólo queda válido si tiene una fotografía
+        vinculada. Un ítem marcado «No» o «No aplica» exige decir por qué.
+        No hay forma de declarar algo hecho sin prueba, ni de omitirlo en silencio.
+      </p>
+    {% endif %}
+
+    {% regroup filas_pauta by item.seccion as secciones %}
+    {% for s in secciones %}
+      <h3>{{ s.grouper }}</h3>
+      {% for fila in s.list %}
+        <div class="item {% if fila.respuesta %}respondido{% elif editable %}falta{% endif %}">
+          <div class="texto">
+            <span class="codigo">{{ fila.item.codigo }}</span>{{ fila.item.descripcion }}
+            {% if fila.con_foto %}
+              <span class="ins verde" title="Tiene fotografía vinculada">con foto</span>
+            {% elif fila.respuesta.resultado == "SI" %}
+              <span class="ins rojo" title="Marcado como ejecutado y sin fotografía">falta foto</span>
+            {% endif %}
+          </div>
+          {% if editable %}
+            <div class="opciones">
+              {% for valor, etiqueta in resultados %}
+                <label><input type="radio" name="item_{{ fila.item.id }}" value="{{ valor }}"
+                  data-item="{{ fila.item.id }}"
+                  {% if fila.respuesta.resultado == valor %}checked{% endif %}>{{ etiqueta }}</label>
+              {% endfor %}
+            </div>
+            <input class="campo motivo" type="text" name="just_{{ fila.item.id }}"
+                   id="just_{{ fila.item.id }}" maxlength="250"
+                   placeholder="Motivo (obligatorio si marca No o No aplica)"
+                   value="{{ fila.respuesta.justificacion|default:'' }}"
+                   style="margin-top:.5rem">
+          {% elif fila.respuesta %}
+            <span class="ins {% if fila.respuesta.resultado == 'SI' %}verde{% elif fila.respuesta.resultado == 'NO' %}rojo{% else %}gris{% endif %}">
+              {{ fila.respuesta.get_resultado_display }}
+            </span>
+            {% if fila.respuesta.justificacion %}
+              <span class="sub" style="font-size:.85rem"> — {{ fila.respuesta.justificacion }}</span>
+            {% endif %}
+          {% else %}
+            <span class="ins gris">Sin responder</span>
+          {% endif %}
+
+          {% if fila.historial %}
+            <div class="cadena">
+              {% for h in fila.historial %}
+                <s>{{ h.get_resultado_display }} — {{ h.usuario.get_full_name|default:h.usuario.username }},
+                {{ h.ts_captura|date:"d/m/Y H:i" }}</s><br>
+              {% endfor %}
+              Corregido {{ fila.historial|length }} vez/veces. Ninguna fila fue sobrescrita.
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endfor %}
+
+    {% if editable %}
+      <button class="btn" type="submit" style="margin-top:1rem;width:100%">Guardar respuestas</button>
+    {% endif %}
+  </div>
+</form>
+
+{# ----------------------------------------------------------- Evidencia #}
+<h2>Evidencia fotográfica</h2>
+<p class="sub">
+  RF-03 · Ningún ítem se declara ejecutado sin fotografía.
+  RF-05 · Fecha, hora y autor los pone el sistema, y quedan estampados dentro
+  de la imagen.
+</p>
+
+{% if evidencias %}
+  <div class="galeria">
+    {% for e in evidencias %}
+      <figure>
+        <a href="{{ e.archivo.url }}" target="_blank"><img src="{{ e.archivo.url }}" alt="Evidencia"></a>
+        <figcaption>
+          <strong>{% for i in e.items.all %}{{ i.codigo }}{% if not forloop.last %}, {% endif %}{% empty %}General{% endfor %}</strong><br>
+          {{ e.ts|date:"d/m/Y H:i" }}<br>
+          {{ e.usuario.get_full_name|default:e.usuario.username }} · {{ e.bytes|filesizeformat }}<br>
+          <span class="hash" title="SHA-256 completo: {{ e.hash_sha256 }}">sha256 {{ e.hash_corto }}…</span>
+        </figcaption>
+      </figure>
+    {% endfor %}
+  </div>
+  <p class="nota">
+    La fecha y la hora quedan grabadas sobre el píxel de la imagen, no sólo en los
+    metadatos: así viajan con la fotografía aunque alguien la exporte fuera del
+    sistema. El hash SHA-256 se calcula al recibirla y permite comprobar después
+    que la imagen exhibida es exactamente la capturada.
+  </p>
+{% else %}
+  <div class="vacio">Sin fotografías. No se puede sellar el tablero sin al menos una.</div>
+{% endif %}
+
+{% if editable %}
+  <div class="tarjeta">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="accion" value="foto">
+      {{ form_evidencia.capturada_en }}
+      <label class="etq" for="campo-foto">{{ form_evidencia.archivo.label }}</label>
+      {{ form_evidencia.archivo }}
+      <p class="nota" style="margin-top:.5rem">
+        El campo abre la cámara trasera. Una imagen cuyo archivo tenga más de 15
+        minutos se rechaza: la evidencia se captura durante la ejecución, no se
+        adjunta después desde la galería.
+      </p>
+      <label class="etq">{{ form_evidencia.items.label }}</label>
+      <p class="sub" style="font-size:.85rem;margin:0 0 .4rem">{{ form_evidencia.items.help_text }}</p>
+      <div class="casillas">{{ form_evidencia.items }}</div>
+      <button class="btn" type="submit" style="margin-top:.8rem;width:100%">Registrar fotografía</button>
+    </form>
+  </div>
+{% endif %}
+
+{# --------------------------------------------------- Mediciones eléctricas #}
+<h2>Mediciones eléctricas</h2>
+<p class="sub">RF-17 · Hoja N° 002214 de IMELSE, digitalizada por tablero.</p>
+
+{% if medicion %}
+  <div class="tarjeta">
+    <div class="envoltura-tabla">
+    <table>
+      <tbody>
+        <tr><th>Entre fases (V)</th>
+            <td>L1-L2 {{ medicion.v_l1_l2|default:"—" }}</td>
+            <td>L2-L3 {{ medicion.v_l2_l3|default:"—" }}</td>
+            <td>L3-L1 {{ medicion.v_l3_l1|default:"—" }}</td></tr>
+        <tr><th>Línea-neutro (V)</th>
+            <td>L1-N {{ medicion.v_l1_n|default:"—" }}</td>
+            <td>L2-N {{ medicion.v_l2_n|default:"—" }}</td>
+            <td>L3-N {{ medicion.v_l3_n|default:"—" }}</td></tr>
+        <tr><th>Línea-tierra (V)</th>
+            <td>L1-T {{ medicion.v_l1_t|default:"—" }}</td>
+            <td>L2-T {{ medicion.v_l2_t|default:"—" }}</td>
+            <td>L3-T {{ medicion.v_l3_t|default:"—" }}</td></tr>
+        <tr><th>Corriente (A)</th>
+            <td>L1 {{ medicion.i_l1|default:"—" }}</td>
+            <td>L2 {{ medicion.i_l2|default:"—" }}</td>
+            <td>L3 {{ medicion.i_l3|default:"—" }}</td></tr>
+        <tr><th>Tierra-neutro / COS-FI</th>
+            <td>T-N {{ medicion.v_t_n|default:"—" }} V</td>
+            <td>COS-FI {{ medicion.cos_fi|default:"—" }}</td>
+            <td></td></tr>
+      </tbody>
+    </table>
+    </div>
+    {% for aviso in medicion.anomalias %}
+      <div class="aviso error" style="margin-top:.6rem">Fuera de rango · {{ aviso }}</div>
+    {% empty %}
+      <div class="aviso success" style="margin-top:.6rem">Todas las lecturas dentro de rango.</div>
+    {% endfor %}
+    {% if medicion.observaciones %}<p class="sub">{{ medicion.observaciones }}</p>{% endif %}
+  </div>
+{% elif editable and form_medicion %}
+  <div class="tarjeta">
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="accion" value="medicion">
+      {% for titulo, campos in form_medicion.grupos %}
+        <h3>{{ titulo }}</h3>
+        <div class="rejilla">
+          {% for campo in campos %}
+            <div><label class="etq" for="{{ campo.id_for_label }}">{{ campo.label }}</label>{{ campo }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <label class="etq" for="{{ form_medicion.observaciones.id_for_label }}">Observaciones</label>
+      {{ form_medicion.observaciones }}
+      <button class="btn sec" type="submit" style="margin-top:.8rem">Registrar mediciones</button>
+    </form>
+    <p class="nota" style="margin-bottom:0">
+      El sistema no sólo guarda los números: compara contra 400 V entre fases y
+      230 V fase-neutro con ±8 % de tolerancia, avisa si la tierra-neutro supera
+      2 V, si el COS-FI baja de 0,93 o si hay más de 15 % de desequilibrio entre
+      fases. Un dato que nadie lee es papel con otra tipografía.
+    </p>
+  </div>
+{% else %}
+  <div class="vacio">Sin mediciones registradas para este tablero.</div>
+{% endif %}
+
+{# --------------------------------------------------------- Observaciones #}
+<h2>Observaciones</h2>
+<p class="sub">
+  Comentarios anexados al registro. No alteran lo declarado: es el canal por el
+  que el estudiante dual o cualquier integrante de la cuadrilla aporta lo que ve.
+</p>
+{% for o in observaciones %}
+  <div class="tarjeta">
+    <div class="sub" style="margin:0 0 .3rem">
+      {{ o.autor.get_full_name|default:o.autor.username }}
+      <span class="ins gris">{{ o.autor.get_rol_display }}</span> ·
+      {{ o.ts|date:"d/m/Y H:i" }}
+    </div>
+    {{ o.texto|linebreaksbr }}
+  </div>
+{% empty %}
+  <div class="vacio">Sin observaciones.</div>
+{% endfor %}
+
+{% if visita.estado != "CERRADA" %}
+  <div class="tarjeta">
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="accion" value="observacion">
+      <label class="etq">{{ form_observacion.texto.label }}</label>
+      {{ form_observacion.texto }}
+      <button class="btn sec" type="submit" style="margin-top:.6rem">Anexar observación</button>
+    </form>
+  </div>
+{% endif %}
+
+{# ------------------------------------------------------------- Hallazgos #}
+<h2>Hallazgos</h2>
+<p class="sub">RF-10 · Anomalías detectadas, clasificadas por criticidad.</p>
+{% for h in hallazgos %}
+  <div class="tarjeta">
+    <span class="ins {% if h.criticidad == 'CRITICA' or h.criticidad == 'ALTA' %}rojo{% elif h.criticidad == 'MEDIA' %}ambar{% else %}gris{% endif %}">
+      {{ h.get_criticidad_display }}
+    </span>
+    {{ h.descripcion }}
+    <div class="sub" style="margin:.3rem 0 0;font-size:.82rem">
+      {{ h.usuario.get_full_name|default:h.usuario.username }} · {{ h.ts|date:"d/m/Y H:i" }}
+    </div>
+  </div>
+{% empty %}
+  <div class="vacio">Sin hallazgos registrados.</div>
+{% endfor %}
+
+{% if editable %}
+  <div class="tarjeta">
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="accion" value="hallazgo">
+      <label class="etq">{{ form_hallazgo.criticidad.label }}</label>
+      {{ form_hallazgo.criticidad }}
+      <label class="etq">{{ form_hallazgo.descripcion.label }}</label>
+      {{ form_hallazgo.descripcion }}
+      <button class="btn sec" type="submit" style="margin-top:.6rem">Registrar hallazgo</button>
+    </form>
+  </div>
+{% endif %}
+
+{# ----------------------------------------------------------------- Sellar #}
+{% if editable %}
+  <h2>Sellar el tablero</h2>
+  <div class="tarjeta">
+    {% if faltantes %}
+      <p>Faltan <strong>{{ faltantes|length }}</strong> ítem(s) de la pauta por responder:</p>
+      <ul>{% for f in faltantes %}<li>{{ f.codigo }} {{ f.descripcion }}</li>{% endfor %}</ul>
+    {% endif %}
+    {% if sin_evidencia %}
+      <p>Hay <strong>{{ sin_evidencia|length }}</strong> ítem(s) marcados «Sí» sin
+      fotografía vinculada. RF-03 no permite declararlos ejecutados así:</p>
+      <ul>{% for f in sin_evidencia %}<li>{{ f.codigo }} {{ f.descripcion }}</li>{% endfor %}</ul>
+    {% endif %}
+    {% if not evidencias %}
+      <p>Falta registrar al menos una fotografía (RF-04).</p>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="accion" value="cerrar">
+      <button class="btn ok" type="submit"
+        {% if faltantes or sin_evidencia or not evidencias %}disabled{% endif %}>
+        Sellar registro del tablero
+      </button>
+    </form>
+    <p class="nota" style="margin-bottom:0">
+      Al sellar, el registro se vuelve inmutable para todos los perfiles.
+    </p>
+  </div>
+{% endif %}
+
+<script>
+/* El campo de motivo sólo aparece cuando el resultado lo exige, para no
+   estorbar al técnico en el caso normal. */
+(function(){
+  function sincronizar(id){
+    var campo = document.getElementById('just_' + id);
+    if(!campo) return;
+    var marcado = document.querySelector('input[name="item_' + id + '"]:checked');
+    var exige = marcado && (marcado.value === 'NO' || marcado.value === 'NA');
+    campo.style.display = exige ? '' : 'none';
+    campo.required = !!exige;
+  }
+  document.querySelectorAll('input[type=radio][data-item]').forEach(function(r){
+    sincronizar(r.dataset.item);
+    r.addEventListener('change', function(){ sincronizar(r.dataset.item); });
+  });
+
+  /* Marca de captura: el navegador conoce cuándo se creó el archivo, y el
+     servidor rechaza los que no son recientes. Es lo más cerca que se puede
+     estar de impedir que la foto salga de la galería. */
+  var foto = document.getElementById('campo-foto');
+  if(foto){
+    foto.addEventListener('change', function(){
+      var marca = document.querySelector('input[name="capturada_en"]');
+      if(marca && foto.files && foto.files[0]){
+        marca.value = String(foto.files[0].lastModified || Date.now());
+      }
+    });
+  }
+})();
+</script>
+{% endblock %}

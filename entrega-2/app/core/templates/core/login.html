@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+{% block titulo %}Entrar · SIG IMELSE{% endblock %}
+{% block contenido %}
+<div style="max-width:380px;margin:3rem auto">
+  <h1 style="text-align:center">IMELSE · SIG</h1>
+  <p class="sub" style="text-align:center">Trazabilidad de mantención preventiva</p>
+  <div class="tarjeta">
+    {% if form.errors %}<div class="aviso error">Usuario o contraseña incorrectos.</div>{% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <label class="etq" for="id_username">Usuario</label>
+      <input class="campo" type="text" name="username" id="id_username" autofocus autocomplete="username" required>
+      <label class="etq" for="id_password">Contraseña</label>
+      <input class="campo" type="password" name="password" id="id_password" autocomplete="current-password" required>
+      <button class="btn" type="submit" style="width:100%;margin-top:1rem">Entrar</button>
+    </form>
+  </div>
+  <p class="nota">Prototipo académico ICN-292. Opera exclusivamente con datos ficticios.</p>
+</div>
+{% endblock %}

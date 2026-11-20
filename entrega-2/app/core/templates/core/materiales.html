@@ -1,0 +1,85 @@
+{% extends "core/base.html" %}
+{% block titulo %}Materiales faltantes · SIG IMELSE{% endblock %}
+{% block contenido %}
+<h1>Materiales y repuestos faltantes</h1>
+<p class="sub">RF-11 · Lo que faltó en terreno, agrupado por local, para comprarlo antes de la próxima visita.</p>
+
+<div class="kpis">
+  <div class="kpi">
+    <div class="valor">{{ total }}</div>
+    <div class="etiqueta">Faltantes registrados</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">{{ total_bloqueantes }}</div>
+    <div class="etiqueta">Bloquean un tablero</div>
+  </div>
+  <div class="kpi">
+    <div class="valor">{{ grupos|length }}</div>
+    <div class="etiqueta">Locales afectados</div>
+  </div>
+</div>
+
+<div class="fila" style="margin-bottom:1rem">
+  <a class="btn chico {% if not solo_bloqueantes %}{% else %}sec{% endif %}" href="{% url 'materiales' %}">Todos</a>
+  <a class="btn chico {% if solo_bloqueantes %}{% else %}sec{% endif %}" href="{% url 'materiales' %}?bloqueantes=1">Sólo bloqueantes</a>
+</div>
+
+<div class="tarjeta">
+  <p class="nota">
+    Ataca la manifestación P6 del diagnóstico, el re-trabajo en abastecimiento.
+    Hoy el faltante se avisa por mensajería y la compra se hace cuando alguien se
+    acuerda, de modo que la cuadrilla vuelve al mismo local sin el repuesto y el
+    tablero queda pendiente por segunda vez con el mismo motivo.
+  </p>
+</div>
+
+{% for g in grupos %}
+  <div class="tarjeta">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ g.local.nombre }}</strong>
+        <div class="sub" style="margin:.15rem 0 0">{{ g.local.direccion }}, {{ g.local.comuna }}</div>
+      </div>
+      {% if g.bloqueantes %}
+        <span class="ins ambar">{{ g.bloqueantes }} bloqueante(s)</span>
+      {% else %}
+        <span class="ins gris">{{ g.materiales|length }} ítem(es)</span>
+      {% endif %}
+    </div>
+    <div class="envoltura-tabla" style="margin-top:.7rem">
+    <table>
+      <thead>
+        <tr><th>Cant.</th><th>Material</th><th>Tablero</th><th>Urgencia</th><th>Visita</th><th>Declaró</th></tr>
+      </thead>
+      <tbody>
+      {% for m in g.materiales %}
+        <tr>
+          <td><strong>{{ m.cantidad }}</strong> {{ m.get_unidad_display|lower }}</td>
+          <td>
+            {{ m.descripcion }}
+            {% if m.comentario %}<div class="sub" style="margin:.15rem 0 0">{{ m.comentario }}</div>{% endif %}
+          </td>
+          <td>{% if m.tablero %}{{ m.tablero.codigo }}{% else %}<span class="sub">Consumo del local</span>{% endif %}</td>
+          <td>
+            {% if m.urgencia == "BLOQUEA" %}<span class="ins ambar">Bloquea el tablero</span>
+            {% elif m.urgencia == "PROXIMO" %}<span class="ins azul">Antes del próximo ciclo</span>
+            {% else %}<span class="ins gris">Stock camioneta</span>{% endif %}
+          </td>
+          <td>{{ m.visita.ciclo }}<div class="sub">{{ m.visita.fecha|date:"d/m/Y" }}</div></td>
+          <td>{{ m.usuario.get_full_name|default:m.usuario.username }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+{% empty %}
+  <div class="vacio">
+    {% if solo_bloqueantes %}
+      Ningún faltante está bloqueando un tablero.
+    {% else %}
+      No hay materiales faltantes registrados.
+    {% endif %}
+  </div>
+{% endfor %}
+{% endblock %}

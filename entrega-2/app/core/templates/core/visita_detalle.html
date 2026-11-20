@@ -1,0 +1,155 @@
+{% extends "core/base.html" %}
+{% block titulo %}{{ visita.local.nombre }} · SIG IMELSE{% endblock %}
+{% block contenido %}
+
+<h1>{{ visita.local.nombre }}</h1>
+<p class="sub">
+  {{ visita.local.direccion }}, {{ visita.local.comuna }} ·
+  {{ visita.ciclo }} · {{ visita.fecha|date:"d/m/Y" }} ·
+  {% if visita.estado == "CERRADA" %}<span class="ins verde">Cerrada</span>
+  {% elif visita.estado == "EN_EJECUCION" %}<span class="ins ambar">En ejecución</span>
+  {% else %}<span class="ins gris">Planificada</span>{% endif %}
+</p>
+
+<div class="tarjeta">
+  <div class="fila">
+    <strong class="crece">Cobertura de tableros</strong>
+    <span class="ins {% if visita.porcentaje_cobertura == 100 %}verde{% else %}ambar{% endif %}">
+      {{ visita.total_registrados }}/{{ visita.total_tableros }} · {{ visita.porcentaje_cobertura }}%
+    </span>
+  </div>
+  <div class="cobertura {% if visita.porcentaje_cobertura < 50 %}baja{% elif visita.porcentaje_cobertura < 100 %}parcial{% endif %}">
+    <i style="width:{{ visita.porcentaje_cobertura }}%"></i>
+  </div>
+  {% if visita.estado != "CERRADA" %}
+    <p class="nota">
+      RF-06 · La visita no puede cerrarse mientras quede un tablero del levantamiento
+      sin registro ni pendiente declarado.
+    </p>
+  {% endif %}
+</div>
+
+<h2>Tableros del local</h2>
+{% for f in filas %}
+  <div class="tarjeta {% if f.estado == 'registrado' %}sellada{% endif %}">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ f.tablero.codigo }}</strong>
+        <span class="ins azul">{{ f.tablero.get_tipo_display }}</span>
+        <div class="sub" style="margin:.15rem 0 0">{{ f.tablero.ubicacion }}</div>
+        {% if f.pendiente %}
+          <div class="sub" style="margin:.3rem 0 0;color:var(--ambar)">
+            Pendiente: {{ f.pendiente.get_motivo_display }}
+            {% if f.pendiente.comentario %}— {{ f.pendiente.comentario }}{% endif %}
+          </div>
+        {% endif %}
+      </div>
+      {% if f.estado == "registrado" %}<span class="ins verde">Registrado</span>
+      {% elif f.estado == "pendiente" %}<span class="ins ambar">Pendiente</span>
+      {% else %}<span class="ins rojo">Sin registro</span>{% endif %}
+    </div>
+    <div class="fila" style="margin-top:.6rem">
+      <a class="btn chico {% if f.estado == 'sin_registro' and puede_editar %}{% else %}sec{% endif %}"
+         href="{% url 'tablero_registro' visita.pk f.tablero.pk %}">
+        {% if f.estado == "registrado" %}Ver registro{% elif puede_editar %}Registrar{% else %}Ver{% endif %}
+      </a>
+      {% if puede_editar and f.estado == "sin_registro" %}
+        <a class="btn chico sec" href="{% url 'declarar_pendiente' visita.pk f.tablero.pk %}">
+          Declarar pendiente
+        </a>
+      {% endif %}
+      <a class="btn chico sec" style="margin-left:auto"
+         href="{% url 'historial_tablero' f.tablero.pk %}">Historial</a>
+    </div>
+  </div>
+{% empty %}
+  <div class="vacio">Este local no tiene tableros levantados.</div>
+{% endfor %}
+
+<h2>Pauta de ámbito visita</h2>
+<p class="sub">
+  Ítems de la lista de chequeo que se responden una vez por visita, no por tablero.
+</p>
+<form method="post" action="{% url 'visita_items' visita.pk %}">
+  {% csrf_token %}
+  <div class="tarjeta">
+    {% regroup items_visita by item.seccion as secciones %}
+    {% for s in secciones %}
+      <h3>{{ s.grouper }}</h3>
+      {% for fila in s.list %}
+        <div class="item {% if fila.respuesta %}respondido{% endif %}">
+          <div class="texto">
+            <span class="codigo">{{ fila.item.codigo }}</span>{{ fila.item.descripcion }}
+          </div>
+          {% if puede_editar %}
+            <div class="opciones">
+              {% for valor, etiqueta in resultados %}
+                <label><input type="radio" name="item_{{ fila.item.id }}" value="{{ valor }}"
+                  {% if fila.respuesta.resultado == valor %}checked{% endif %}>{{ etiqueta }}</label>
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% if fila.respuesta %}
+            <div class="cadena">
+              Vigente: <strong>{{ fila.respuesta.get_resultado_display }}</strong> ·
+              {{ fila.respuesta.usuario.get_full_name|default:fila.respuesta.usuario.username }} ·
+              {{ fila.respuesta.ts_captura|date:"d/m/Y H:i" }}
+              {% if fila.respuesta.corrige_a %}
+                <br><s>Antes: {{ fila.respuesta.corrige_a.get_resultado_display }}
+                ({{ fila.respuesta.corrige_a.ts_captura|date:"d/m H:i" }})</s>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endfor %}
+    {% if puede_editar %}
+      <button class="btn" type="submit" style="margin-top:1rem">Guardar respuestas</button>
+    {% endif %}
+  </div>
+</form>
+
+{% if puede_editar %}
+<h2>Materiales faltantes</h2>
+<div class="tarjeta">
+  <div class="fila">
+    <div class="crece">
+      <p style="margin:0">
+        RF-11 · Lo que faltó en el local se declara acá y abastecimiento lo ve
+        antes de la próxima visita.
+        {% with n=visita.materiales_faltantes.count %}
+          {% if n %}<strong>{{ n }} registrado(s)</strong> en esta visita.{% endif %}
+        {% endwith %}
+      </p>
+    </div>
+    <a class="btn chico sec" href="{% url 'visita_materiales' visita.pk %}">Declarar faltante</a>
+  </div>
+</div>
+
+<h2>Cierre de la visita</h2>
+<div class="tarjeta">
+  {% if visita.puede_cerrarse %}
+    <p>Todos los tableros están registrados o declarados pendientes. La visita puede cerrarse.</p>
+    <form method="post" action="{% url 'cerrar_visita' visita.pk %}">{% csrf_token %}
+      <button class="btn ok" type="submit">Cerrar visita y publicar evidencia</button>
+    </form>
+  {% else %}
+    <p>
+      Quedan <strong>{{ sin_resolver }}</strong> tablero(s) sin resolver.
+      Regístrelos o declárelos pendientes para habilitar el cierre.
+    </p>
+    <button class="btn" disabled>Cerrar visita</button>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if visita.estado == "CERRADA" %}
+<div class="tarjeta sellada">
+  Visita cerrada por {{ visita.cerrada_por.get_full_name|default:visita.cerrada_por.username }}
+  el {{ visita.ts_cierre|date:"d/m/Y H:i" }}.
+  {% if not user.es_tecnico %}
+    <a class="btn chico" style="margin-left:.5rem" href="{% url 'informe_visita' visita.pk %}">Ver informe</a>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "core/base.html" %}
+{% block titulo %}Planilla anual · SIG IMELSE{% endblock %}
+{% block contenido %}
+
+<h1>Planilla anual de control</h1>
+<p class="sub">
+  Un archivo Excel por año, con una hoja por mes. Se actualiza sola cada vez
+  que se cierra una visita.
+</p>
+
+<form method="get" class="fila" style="margin-bottom:1rem">
+  <label class="etq" style="margin:0" for="anio">Año</label>
+  <select class="campo" name="anio" id="anio" style="width:auto" onchange="this.form.submit()">
+    {% for a in anios %}
+      <option value="{{ a }}" {% if a == anio %}selected{% endif %}>{{ a }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+<div class="tarjeta {% if libro.archivo %}sellada{% endif %}">
+  {% if libro and libro.archivo %}
+    <div class="fila">
+      <div class="crece">
+        <strong>control-mantencion-{{ anio }}.xlsx</strong>
+        <div class="sub" style="margin:.2rem 0 0">
+          {{ libro.n_visitas }} visita(s) del año · {{ libro.bytes|filesizeformat }} ·
+          actualizada el {{ libro.ts_actualizacion|date:"d/m/Y H:i" }}
+          {% if libro.actualizado_por %}
+            por {{ libro.actualizado_por.get_full_name|default:libro.actualizado_por.username }}
+          {% endif %}
+        </div>
+      </div>
+      <a class="btn" href="{% url 'descargar_libro' anio %}">Descargar Excel</a>
+    </div>
+  {% else %}
+    <p>Todavía no se ha generado la planilla de {{ anio }}.</p>
+  {% endif %}
+
+  <form method="post" style="margin-top:.9rem">
+    {% csrf_token %}
+    <input type="hidden" name="anio" value="{{ anio }}">
+    <button class="btn sec" type="submit">
+      {% if libro.archivo %}Actualizar ahora{% else %}Generar planilla{% endif %}
+    </button>
+  </form>
+</div>
+
+<h2>Qué trae el archivo</h2>
+<div class="envoltura-tabla">
+<table>
+  <thead><tr><th>Hoja</th><th>Contenido</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Resumen</strong></td>
+        <td>Los doce meses en una tabla: visitas, tableros esperados y
+        registrados, pendientes, cobertura y hallazgos, con el total del año.
+        El nombre de cada mes es un enlace a su hoja.</td></tr>
+    <tr><td><strong>01 Enero … 12 Diciembre</strong></td>
+        <td>Una hoja por mes, con una fila por visita: fecha, local, comuna,
+        ciclo, estado, cuadrilla, cobertura y si el informe ya se emitió.</td></tr>
+    <tr><td><strong>Pendientes</strong></td>
+        <td>Todos los tableros no intervenidos del año, con su motivo y quién
+        lo declaró. Es la lista que hay que arrastrar al ciclo siguiente.</td></tr>
+    <tr><td><strong>Tableros</strong></td>
+        <td>Cuántas veces se intervino cada tablero en el año y cuándo fue la
+        última. Los que nunca se tocaron salen marcados en rojo.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="tarjeta">
+  <p class="nota" style="margin-top:0">
+    Las celdas de cobertura y los totales son <strong>fórmulas de Excel</strong>,
+    no números pegados: la planilla se puede trabajar y filtrar como cualquier
+    otra, y los totales se recalculan solos.
+  </p>
+  <p class="nota" style="margin-bottom:0">
+    La planilla <strong>se regenera entera</strong> en lugar de irse editando.
+    No es un registro, es una fotografía del estado actual del sistema. Los
+    registros de terreno y el informe en PDF de cada visita sí son inmutables:
+    si la planilla se pudiera editar a mano, el archivo y el sistema dirían
+    cosas distintas y volveríamos al problema del papel.
+  </p>
+</div>
+{% endblock %}

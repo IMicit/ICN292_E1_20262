@@ -1,0 +1,85 @@
+{% extends "core/base.html" %}
+{% block titulo %}Informes archivados · SIG IMELSE{% endblock %}
+{% block contenido %}
+
+<p class="sub" style="margin-bottom:.3rem">
+  <a href="{% url 'visita_detalle' visita.pk %}">&larr; {{ visita.local.nombre }}</a>
+</p>
+<h1>Informes archivados</h1>
+<p class="sub">
+  {{ visita.local.cliente.razon_social }} · {{ visita.local.nombre }} ·
+  {{ visita.ciclo }} · {{ visita.fecha|date:"d/m/Y" }}
+</p>
+
+<div class="tarjeta">
+  <p class="nota" style="margin-top:0">
+    RF-13 · El informe se genera en el servidor a partir de los registros sellados
+    y queda archivado en la base de datos con su propio hash SHA-256. El documento
+    que llega al cliente es un objeto del sistema, no un archivo que alguien arma a
+    mano y puede retocar antes de mandarlo. Regenerar crea una versión nueva; las
+    anteriores no se borran.
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="accion" value="generar">
+    <button class="btn" type="submit"
+      {% if visita.estado != "CERRADA" %}disabled{% endif %}>
+      Generar informe{% if informes %} (nueva versión){% endif %}
+    </button>
+    {% if visita.estado != "CERRADA" %}
+      <p class="sub" style="margin:.6rem 0 0">
+        La visita debe estar cerrada: mientras siga abierta, lo que se despacharía
+        podría cambiar después.
+      </p>
+    {% endif %}
+  </form>
+</div>
+
+{% for i in informes %}
+  <div class="tarjeta {% if forloop.first %}sellada{% endif %}">
+    <div class="fila">
+      <div class="crece">
+        <strong>Versión {{ i.version }}</strong>
+        {% if forloop.first %}<span class="ins verde">Vigente</span>{% endif %}
+        <div class="sub" style="margin:.15rem 0 0">
+          {{ i.ts|date:"d/m/Y H:i" }} ·
+          {{ i.generado_por.get_full_name|default:i.generado_por.username }} ·
+          {{ i.bytes|filesizeformat }}
+        </div>
+        <div class="hash" style="margin-top:.25rem" title="{{ i.hash_sha256 }}">
+          sha256 {{ i.hash_corto }}…
+        </div>
+      </div>
+      <a class="btn chico" href="{% url 'descargar_informe' i.pk %}">Descargar PDF</a>
+    </div>
+
+    {% if i.ts_despacho %}
+      <div class="aviso success" style="margin:.7rem 0 0">
+        Despachado a {{ i.destinatario }} el {{ i.ts_despacho|date:"d/m/Y H:i" }}.
+      </div>
+    {% else %}
+      <form method="post" class="fila" style="margin-top:.7rem;align-items:flex-end">
+        {% csrf_token %}
+        <input type="hidden" name="accion" value="despachar">
+        <input type="hidden" name="informe" value="{{ i.pk }}">
+        <div class="crece" style="min-width:200px">
+          <label class="etq" for="dest{{ i.pk }}">Correo del cliente</label>
+          <input class="campo" type="email" name="destinatario" id="dest{{ i.pk }}"
+                 value="{{ destinatario_sugerido }}" required>
+        </div>
+        <button class="btn sec" type="submit">Registrar despacho</button>
+      </form>
+    {% endif %}
+  </div>
+{% empty %}
+  <div class="vacio">
+    Todavía no hay informes archivados para esta visita.
+  </div>
+{% endfor %}
+
+<p class="nota">
+  El envío efectivo por correo queda fuera del alcance del prototipo: el sistema
+  genera, archiva y entrega el PDF, y registra a quién y cuándo se despachó. Conectar
+  un servidor de correo es configuración, no un cambio de diseño.
+</p>
+{% endblock %}

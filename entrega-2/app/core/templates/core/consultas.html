@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+{% block titulo %}Consultas de negocio · SIG IMELSE{% endblock %}
+{% block contenido %}
+
+<h1>Consultas de negocio</h1>
+<p class="sub">
+  Preguntas que la empresa hoy no puede responder, resueltas en SQL contra esta
+  misma base. Motor en uso: <strong>{{ motor }}</strong>.
+</p>
+
+{% if not consultas %}
+  <div class="vacio">No se encontraron archivos en <code>db/consultas/</code>.</div>
+{% else %}
+
+<div class="fila" style="margin-bottom:1rem;gap:.4rem">
+  {% for c in consultas %}
+    <a class="btn chico {% if c.slug != elegida.slug %}sec{% endif %}"
+       href="?q={{ c.slug }}">{{ forloop.counter }}</a>
+  {% endfor %}
+  <span class="sub" style="margin:0 0 0 .5rem;font-size:.88rem">
+    {{ consultas|length }} consultas · se ejecutan al abrir la página
+  </span>
+</div>
+
+<div class="tarjeta">
+  <h2 style="margin-top:0;border:0;padding:0">{{ elegida.titulo }}</h2>
+  {% if elegida.pregunta %}
+    <p class="sub" style="font-size:1.02rem;margin:.3rem 0 .8rem">{{ elegida.pregunta }}</p>
+  {% endif %}
+  {% if elegida.interpretacion %}
+    <div class="nota">{{ elegida.interpretacion }}</div>
+  {% endif %}
+  <div class="sub" style="font-size:.85rem;margin:.6rem 0 0">
+    Archivo: <code>{{ elegida.archivo }}</code> — el mismo que se entrega en el
+    repositorio. No hay una copia dentro del código.
+  </div>
+</div>
+
+{% if error %}
+  <div class="aviso error"><strong>El motor rechazó la consulta.</strong><br>{{ error }}</div>
+{% else %}
+  <h2>Resultado · {{ n_filas }} fila{{ n_filas|pluralize }}</h2>
+  <div class="envoltura-tabla">
+    <table>
+      <thead><tr>{% for c in columnas %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for fila in filas %}
+          <tr>{% for v in fila %}<td>{{ v|default_if_none:"—" }}</td>{% endfor %}</tr>
+        {% empty %}
+          <tr><td colspan="{{ columnas|length }}" class="vacio">
+            La consulta no devolvió filas.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+
+<h2>La consulta</h2>
+<div class="tarjeta" style="padding:0;overflow:hidden">
+  <pre style="margin:0;padding:1rem 1.1rem;overflow-x:auto;background:#0f1c28;color:#d7e3ef;
+              font:.82rem/1.65 ui-monospace,SFMono-Regular,Menlo,monospace">{{ elegida.sql }}</pre>
+</div>
+
+<p class="nota">
+  Esta pantalla ejecuta sólo sentencias de lectura: cualquier archivo que
+  contenga una instrucción de escritura se rechaza antes de llegar al motor. La
+  inmutabilidad de los registros vale también para las herramientas de consulta.
+</p>
+
+{% endif %}
+{% endblock %}

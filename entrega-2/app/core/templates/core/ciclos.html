@@ -1,0 +1,75 @@
+{% extends "core/base.html" %}
+{% block titulo %}Ciclos del contrato · SIG IMELSE{% endblock %}
+{% block contenido %}
+<h1>Ciclos del contrato</h1>
+<p class="sub">RF-02 · Las visitas de un ciclo se generan desde el calendario del contrato, no a mano.</p>
+
+<div class="tarjeta">
+  <p class="nota">
+    El alcance de cada ciclo sale del catálogo de locales con tableros activos,
+    que es la misma fuente que define el denominador de la cobertura. Generar es
+    idempotente: un local que ya tiene visita en el ciclo no se duplica, y volver
+    a apretar el botón no cambia nada de lo que ya existe.
+  </p>
+</div>
+
+{% for f in filas %}
+  <div class="tarjeta">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ f.ciclo }}</strong>
+        {% if f.ciclo.vigente %}<span class="ins ambar">En ejecución</span>{% endif %}
+        <div class="sub" style="margin:.15rem 0 0">
+          Ventana: {{ f.ciclo.fecha_inicio|date:"d/m/Y" }} — {{ f.ciclo.fecha_termino|date:"d/m/Y" }}
+        </div>
+      </div>
+      <span class="ins {% if f.n_faltantes %}ambar{% else %}verde{% endif %}">
+        {{ f.n_visitas }} visita(s) · {{ f.cerradas }} cerrada(s)
+      </span>
+    </div>
+
+    {% if f.n_faltantes %}
+      <div class="aviso" style="margin-top:.7rem">
+        Sin visita planificada en
+        {% for l in f.faltantes %}<strong>{{ l.nombre }}</strong>{% if not forloop.last %}, {% endif %}{% endfor %}.
+      </div>
+      <form method="post" style="margin-top:.7rem">
+        {% csrf_token %}
+        <input type="hidden" name="ciclo" value="{{ f.ciclo.pk }}">
+        <button class="btn" type="submit">
+          Generar {{ f.n_faltantes }} visita(s) del {{ f.ciclo }}
+        </button>
+      </form>
+    {% else %}
+      <div class="sub" style="margin-top:.7rem">
+        Todos los locales del contrato tienen visita en este ciclo.
+      </div>
+    {% endif %}
+
+    {% if f.visitas %}
+      <div class="envoltura-tabla" style="margin-top:.7rem">
+      <table>
+        <thead><tr><th>Local</th><th>Fecha</th><th>Estado</th><th>Cobertura</th><th></th></tr></thead>
+        <tbody>
+        {% for v in f.visitas %}
+          <tr>
+            <td><strong>{{ v.local.nombre }}</strong></td>
+            <td>{{ v.fecha|date:"d/m/Y" }}</td>
+            <td>
+              {% if v.estado == "CERRADA" %}<span class="ins verde">Cerrada</span>
+              {% elif v.estado == "EN_EJECUCION" %}<span class="ins ambar">En ejecución</span>
+              {% else %}<span class="ins gris">Planificada</span>{% endif %}
+            </td>
+            <td>{{ v.porcentaje_cobertura }}%</td>
+            <td><a class="btn chico sec" href="{% url 'visita_detalle' v.pk %}">Abrir</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    {% endif %}
+  </div>
+{% empty %}
+  <div class="vacio">No hay ciclos cargados en el calendario del contrato.</div>
+{% endfor %}
+{% endblock %}

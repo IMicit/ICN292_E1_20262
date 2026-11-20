@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+{% block titulo %}Materiales faltantes · SIG IMELSE{% endblock %}
+{% block contenido %}
+<p class="sub" style="margin-bottom:.3rem">
+  <a href="{% url 'visita_detalle' visita.pk %}">&larr; {{ visita.local.nombre }}</a>
+</p>
+<h1>¿Qué faltó?</h1>
+<p class="sub">{{ visita.local.nombre }} — {{ visita.fecha|date:"d/m/Y" }} — {{ visita.ciclo }}</p>
+
+<div class="tarjeta">
+  <p class="nota">
+    RF-11 · Declararlo acá, en el local, es lo que evita volver sin el repuesto.
+    Abastecimiento ve la lista completa por local antes de la próxima visita.
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <label class="etq">{{ formulario.descripcion.label }}</label>
+    {{ formulario.descripcion }}
+    {% for e in formulario.descripcion.errors %}<div class="aviso error">{{ e }}</div>{% endfor %}
+
+    <div class="fila" style="gap:.7rem;align-items:flex-end">
+      <div style="flex:0 0 90px">
+        <label class="etq">{{ formulario.cantidad.label }}</label>
+        {{ formulario.cantidad }}
+      </div>
+      <div class="crece">
+        <label class="etq">{{ formulario.unidad.label }}</label>
+        {{ formulario.unidad }}
+      </div>
+    </div>
+    {% for e in formulario.cantidad.errors %}<div class="aviso error">{{ e }}</div>{% endfor %}
+
+    <label class="etq">{{ formulario.tablero.label }}</label>
+    {{ formulario.tablero }}
+    {% for e in formulario.tablero.errors %}<div class="aviso error">{{ e }}</div>{% endfor %}
+
+    <label class="etq">{{ formulario.urgencia.label }}</label>
+    {{ formulario.urgencia }}
+    {% for e in formulario.urgencia.errors %}<div class="aviso error">{{ e }}</div>{% endfor %}
+
+    <label class="etq">{{ formulario.comentario.label }}</label>
+    {{ formulario.comentario }}
+
+    <div class="fila" style="margin-top:1rem">
+      <button class="btn" type="submit">Registrar faltante</button>
+      <a class="btn sec" href="{% url 'visita_detalle' visita.pk %}">Volver a la visita</a>
+    </div>
+  </form>
+</div>
+
+<h2>Registrados en esta visita</h2>
+{% for m in materiales %}
+  <div class="tarjeta">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ m.cantidad }} {{ m.get_unidad_display|lower }} · {{ m.descripcion }}</strong>
+        <div class="sub" style="margin:.15rem 0 0">
+          {% if m.tablero %}{{ m.tablero.codigo }} — {{ m.tablero.ubicacion }}{% else %}Consumo del local{% endif %}
+          · {{ m.ts|date:"d/m/Y H:i" }}
+        </div>
+        {% if m.comentario %}<div class="sub" style="margin:.15rem 0 0">{{ m.comentario }}</div>{% endif %}
+      </div>
+      {% if m.urgencia == "BLOQUEA" %}<span class="ins ambar">Bloquea el tablero</span>
+      {% elif m.urgencia == "PROXIMO" %}<span class="ins azul">Antes del próximo ciclo</span>
+      {% else %}<span class="ins gris">Stock camioneta</span>{% endif %}
+    </div>
+  </div>
+{% empty %}
+  <div class="vacio">Todavía no se ha declarado ningún faltante en esta visita.</div>
+{% endfor %}
+{% endblock %}

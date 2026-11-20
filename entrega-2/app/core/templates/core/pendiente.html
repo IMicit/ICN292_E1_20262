@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+{% block titulo %}Declarar pendiente · SIG IMELSE{% endblock %}
+{% block contenido %}
+<p class="sub" style="margin-bottom:.3rem">
+  <a href="{% url 'visita_detalle' visita.pk %}">&larr; {{ visita.local.nombre }}</a>
+</p>
+<h1>Declarar pendiente</h1>
+<p class="sub">{{ tablero.codigo }} — {{ tablero.ubicacion }}</p>
+
+<div class="tarjeta">
+  <p class="nota">
+    RF-07 · Un tablero no intervenido sólo puede quedar fuera de la visita si se
+    declara el motivo. Es la única salida al bloqueo de cierre, y sustituye al
+    silencio del papel: en lugar de un casillero en blanco, queda un motivo con
+    autor y fecha.
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <label class="etq">{{ form.motivo.label }}</label>
+    {{ form.motivo }}
+    {% for e in form.motivo.errors %}<div class="aviso error">{{ e }}</div>{% endfor %}
+    <label class="etq">{{ form.comentario.label }}</label>
+    {{ form.comentario }}
+    {% for e in form.comentario.errors %}<div class="aviso error">{{ e }}</div>{% endfor %}
+    <div class="fila" style="margin-top:1rem">
+      <button class="btn" type="submit">Declarar pendiente</button>
+      <a class="btn sec" href="{% url 'visita_detalle' visita.pk %}">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

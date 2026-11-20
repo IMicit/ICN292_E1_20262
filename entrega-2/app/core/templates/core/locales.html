@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+{% block titulo %}Locales · SIG IMELSE{% endblock %}
+{% block contenido %}
+<h1>Catálogo de locales y tableros</h1>
+<p class="sub">RF-01 · Registro maestro proveniente del levantamiento en terreno.</p>
+
+{% for l in locales %}
+  <div class="tarjeta">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ l.nombre }}</strong>
+        <span class="ins azul">{{ l.cliente.razon_social }}</span>
+        <div class="sub" style="margin:.15rem 0 0">{{ l.direccion }}, {{ l.comuna }}</div>
+      </div>
+      <span class="ins gris">{{ l.n_tableros }} tablero(s)</span>
+    </div>
+    <div class="envoltura-tabla" style="margin-top:.7rem">
+    <table>
+      <thead><tr><th>Código</th><th>Ubicación</th><th>Tipo</th><th></th></tr></thead>
+      <tbody>
+      {% for t in l.tableros.all %}
+        <tr>
+          <td><strong>{{ t.codigo }}</strong></td>
+          <td>{{ t.ubicacion }}</td>
+          <td>{{ t.get_tipo_display }}</td>
+          <td><a class="btn chico sec" href="{% url 'historial_tablero' t.pk %}">Historial</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+{% empty %}
+  <div class="vacio">Sin locales cargados.</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,161 @@
+{
+  "name": "IMELSE · Despacho del informe de mantención",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "visita-cerrada",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000001",
+      "name": "Visita cerrada",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-420, 300],
+      "webhookId": "a1000000-0000-4000-8000-000000000001",
+      "notes": "Queda esperando. El SIG avisa aquí en el momento en que el tecnico cierra la visita en terreno. Trazabilidad BPMN: evento de fin del subproceso de mantencion, carril Cuadrilla."
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.body.informe.url_descarga }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-SIG-Token",
+              "value": "sig-imelse-token-de-demostracion"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "informe_pdf"
+            }
+          }
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000002",
+      "name": "Obtener informe PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-200, 300],
+      "notes": "Descarga el PDF que el SIG genero y archivo al cerrar la visita. El documento no se arma aqui: se toma el que ya quedo guardado con su huella SHA-256."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-criticos",
+              "leftValue": "={{ $('Visita cerrada').item.json.body.pendientes.criticos }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000003",
+      "name": "Hay pendientes criticos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [40, 300],
+      "notes": "Se consideran criticos los pendientes por sala sin acceso, equipo en operacion o tablero inexistente. Son los que no se resuelven solos en el ciclo siguiente."
+    },
+    {
+      "parameters": {
+        "fromEmail": "sig@imelse-demo.cl",
+        "toEmail": "={{ $('Visita cerrada').item.json.body.destinatario_gerencia }}",
+        "subject": "=[ATENCION] {{ $('Visita cerrada').item.json.body.visita.local }} cerro con {{ $('Visita cerrada').item.json.body.pendientes.criticos }} tablero(s) critico(s) sin intervenir",
+        "html": "=<p>La visita a <b>{{ $('Visita cerrada').item.json.body.visita.local }}</b> del {{ $('Visita cerrada').item.json.body.visita.fecha }} ({{ $('Visita cerrada').item.json.body.visita.ciclo }}) se cerro con cobertura de {{ $('Visita cerrada').item.json.body.cobertura.porcentaje }} %.</p><p>Tableros no intervenidos por motivo critico: <b>{{ $('Visita cerrada').item.json.body.pendientes.criticos }}</b> de {{ $('Visita cerrada').item.json.body.pendientes.total }} pendientes.</p><p>Detalle:</p><ul>{{ $('Visita cerrada').item.json.body.pendientes.detalle.map(p => '<li><b>' + p.tablero + '</b> (' + p.ubicacion + '): ' + p.motivo + '. ' + p.comentario + '</li>').join('') }}</ul><p>Cerro la visita: {{ $('Visita cerrada').item.json.body.visita.cerrada_por }}.</p><p style=\"color:#5b6672;font-size:12px\">Aviso automatico del SIG de IMELSE. Implementa RF-18.</p>",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000004",
+      "name": "Avisar a gerencia",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [300, 160],
+      "notes": "RF-18. Hoy gerencia se entera de un tablero sin intervenir cuando falla. Con esto se entera el mismo dia."
+    },
+    {
+      "parameters": {
+        "fromEmail": "sig@imelse-demo.cl",
+        "toEmail": "={{ $('Visita cerrada').item.json.body.destinatario }}",
+        "subject": "=Informe de mantencion preventiva - {{ $('Visita cerrada').item.json.body.visita.local }} - {{ $('Visita cerrada').item.json.body.visita.fecha }}",
+        "html": "=<p>Estimados,</p><p>Adjuntamos el informe de la mantencion preventiva realizada en <b>{{ $('Visita cerrada').item.json.body.visita.local }}</b> el {{ $('Visita cerrada').item.json.body.visita.fecha }}, correspondiente al {{ $('Visita cerrada').item.json.body.visita.ciclo }}.</p><p>Se intervinieron {{ $('Visita cerrada').item.json.body.cobertura.tableros_registrados }} de {{ $('Visita cerrada').item.json.body.cobertura.tableros_esperados }} tableros ({{ $('Visita cerrada').item.json.body.cobertura.porcentaje }} % de cobertura). Los tableros no intervenidos y su motivo estan detallados al final del informe.</p><p>Cada fotografia del informe lleva estampados el tablero, la fecha y la hora de captura, y su huella digital SHA-256.</p><p>Saludos cordiales,<br>Montajes e Instalaciones Electricas IMELSE SpA</p>",
+        "attachments": "informe_pdf",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000005",
+      "name": "Enviar informe al cliente",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [300, 420],
+      "notes": "Trazabilidad BPMN: automatiza la tarea 'Enviar informe al cliente' del carril Administracion del to-be. Hoy esa tarea la hace una persona entre 16 y 24 horas despues."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Visita cerrada').item.json.body.informe.url_despacho }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-SIG-Token",
+              "value": "sig-imelse-token-de-demostracion"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"destinatario\": \"{{ $('Visita cerrada').item.json.body.destinatario }}\"}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000006",
+      "name": "Registrar despacho en el SIG",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [560, 420],
+      "notes": "El flujo no termina en el aire: escribe de vuelta en el sistema a quien y cuando se envio. El registro del despacho queda en la base de datos, no en el historial de n8n. No altera el documento ni su huella."
+    }
+  ],
+  "connections": {
+    "Visita cerrada": {
+      "main": [[{ "node": "Obtener informe PDF", "type": "main", "index": 0 }]]
+    },
+    "Obtener informe PDF": {
+      "main": [[{ "node": "Hay pendientes criticos?", "type": "main", "index": 0 }]]
+    },
+    "Hay pendientes criticos?": {
+      "main": [
+        [{ "node": "Avisar a gerencia", "type": "main", "index": 0 }],
+        [{ "node": "Enviar informe al cliente", "type": "main", "index": 0 }]
+      ]
+    },
+    "Avisar a gerencia": {
+      "main": [[{ "node": "Enviar informe al cliente", "type": "main", "index": 0 }]]
+    },
+    "Enviar informe al cliente": {
+      "main": [[{ "node": "Registrar despacho en el SIG", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {
+    "descripcion": "Automatiza el despacho del informe de mantencion preventiva de IMELSE al cerrarse una visita en terreno. Proyecto ICN-292, UTFSM 2026-2."
+  }
+}

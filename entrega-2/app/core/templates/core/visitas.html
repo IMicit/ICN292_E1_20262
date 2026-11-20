@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+{% block titulo %}Visitas · SIG IMELSE{% endblock %}
+{% block contenido %}
+<h1>{% if user.es_tecnico %}Mis visitas{% else %}Visitas{% endif %}</h1>
+<p class="sub">Mantención preventiva bajo contrato · ciclo bimensual</p>
+
+{% for v in visitas %}
+  <div class="tarjeta">
+    <div class="fila">
+      <div class="crece">
+        <strong>{{ v.local.nombre }}</strong>
+        <div class="sub" style="margin:.15rem 0 0">
+          {{ v.local.comuna }} · {{ v.ciclo }} · {{ v.fecha|date:"d/m/Y" }}
+        </div>
+      </div>
+      {% if v.estado == "CERRADA" %}<span class="ins verde">Cerrada</span>
+      {% elif v.estado == "EN_EJECUCION" %}<span class="ins ambar">En ejecución</span>
+      {% else %}<span class="ins gris">Planificada</span>{% endif %}
+    </div>
+    <div class="cobertura {% if v.porcentaje_cobertura < 50 %}baja{% elif v.porcentaje_cobertura < 100 %}parcial{% endif %}">
+      <i style="width:{{ v.porcentaje_cobertura }}%"></i>
+    </div>
+    <div class="fila">
+      <small class="sub" style="margin:0">
+        {{ v.total_registrados }} de {{ v.total_tableros }} tableros registrados
+      </small>
+      <a class="btn chico sec" style="margin-left:auto" href="{% url 'visita_detalle' v.pk %}">Abrir</a>
+      {% if v.estado == "CERRADA" and not user.es_tecnico %}
+        <a class="btn chico" href="{% url 'informe_visita' v.pk %}">Informe</a>
+      {% endif %}
+    </div>
+  </div>
+{% empty %}
+  <div class="vacio">No hay visitas asignadas.</div>
+{% endfor %}
+{% endblock %}

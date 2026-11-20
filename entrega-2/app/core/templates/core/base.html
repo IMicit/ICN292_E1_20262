@@ -1,0 +1,189 @@
+{% load static %}<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#123a6b">
+<link rel="manifest" href="{% url 'manifiesto' %}">
+<title>{% block titulo %}SIG IMELSE{% endblock %}</title>
+<style>
+/* -------------------------------------------------------------------------
+   RNF-03: interfaz operable con una mano y con guantes.
+   Todo control táctil mide al menos 48 px de alto y el contraste está
+   subido para salas de tableros con poca luz.
+   ------------------------------------------------------------------------- */
+:root{
+  --azul:#123a6b; --azul-claro:#1f5596; --rojo:#c62828; --ambar:#b26a00;
+  --verde:#1b6e3c; --gris:#5b6672; --borde:#d4dae1; --fondo:#f3f5f8;
+  --papel:#fff; --texto:#17212b; --radio:10px;
+}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+     background:var(--fondo);color:var(--texto)}
+a{color:var(--azul-claro)}
+header.barra{background:var(--azul);color:#fff;padding:.7rem 1rem;display:flex;
+     align-items:center;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+header.barra .marca{font-weight:700;letter-spacing:.02em}
+header.barra .marca span{color:#ffc107}
+header.barra nav{display:flex;gap:.25rem;flex-wrap:wrap;margin-left:auto;align-items:center}
+header.barra nav a{color:#dce6f2;text-decoration:none;padding:.45rem .7rem;border-radius:6px;font-size:.92rem}
+header.barra nav a:hover{background:rgba(255,255,255,.14)}
+header.barra .quien{font-size:.82rem;color:#aebfd4;border-left:1px solid #3b5f8e;padding-left:.8rem}
+main{max-width:1000px;margin:0 auto;padding:1.1rem 1rem 4rem}
+h1{font-size:1.45rem;margin:.2rem 0 .3rem}
+h2{font-size:1.1rem;margin:1.6rem 0 .6rem;padding-bottom:.3rem;border-bottom:2px solid var(--borde)}
+h3{font-size:.95rem;margin:1.1rem 0 .4rem;color:var(--gris);text-transform:uppercase;letter-spacing:.04em}
+.sub{color:var(--gris);margin:0 0 1rem;font-size:.95rem}
+.tarjeta{background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);
+     padding:1rem;margin-bottom:.8rem}
+.tarjeta.sellada{border-left:5px solid var(--verde)}
+.fila{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.crece{flex:1}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+     min-height:48px;padding:.6rem 1.1rem;border-radius:var(--radio);border:1px solid transparent;
+     background:var(--azul);color:#fff;font:inherit;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--azul-claro)}
+.btn.sec{background:var(--papel);color:var(--azul);border-color:var(--azul)}
+.btn.sec:hover{background:#e8eef6}
+.btn.peligro{background:var(--rojo)}
+.btn.ok{background:var(--verde)}
+.btn:disabled{background:#b9c2cc;border-color:#b9c2cc;cursor:not-allowed}
+.btn.chico{min-height:36px;padding:.3rem .7rem;font-size:.85rem;font-weight:500}
+
+/* Insignias de estado */
+.ins{display:inline-block;padding:.2rem .55rem;border-radius:999px;font-size:.78rem;
+     font-weight:600;white-space:nowrap}
+.ins.verde{background:#e2f3e8;color:var(--verde)}
+.ins.ambar{background:#fdf0dc;color:var(--ambar)}
+.ins.rojo{background:#fbe3e3;color:var(--rojo)}
+.ins.gris{background:#e9edf2;color:var(--gris)}
+.ins.azul{background:#e3ecf8;color:var(--azul)}
+
+/* Barra de cobertura */
+.cobertura{height:12px;background:#e3e8ee;border-radius:999px;overflow:hidden;margin:.4rem 0}
+.cobertura > i{display:block;height:100%;background:var(--verde)}
+.cobertura.parcial > i{background:var(--ambar)}
+.cobertura.baja > i{background:var(--rojo)}
+
+/* Tablas */
+table{width:100%;border-collapse:collapse;background:var(--papel);font-size:.92rem}
+th,td{text-align:left;padding:.6rem .55rem;border-bottom:1px solid var(--borde);vertical-align:top}
+th{background:#eaeef3;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--gris)}
+.envoltura-tabla{overflow-x:auto;border:1px solid var(--borde);border-radius:var(--radio)}
+
+/* Pauta: grupos de radios grandes */
+.item{border-bottom:1px solid var(--borde);padding:.75rem .2rem}
+.item:last-child{border-bottom:0}
+.item .texto{margin-bottom:.5rem}
+.item .codigo{color:var(--gris);font-variant-numeric:tabular-nums;margin-right:.4rem;font-weight:600}
+.opciones{display:flex;gap:.4rem}
+.opciones label{flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;
+     border:2px solid var(--borde);border-radius:var(--radio);cursor:pointer;font-weight:600;
+     background:var(--papel);user-select:none}
+/* Oculto a la vista pero accesible al teclado y al lector de pantalla */
+.opciones input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.opciones label:has(input:focus-visible){outline:3px solid var(--azul-claro);outline-offset:2px}
+.opciones label:has(input:checked){border-color:var(--azul);background:#e3ecf8;color:var(--azul)}
+.opciones label:has(input[value="NO"]:checked){border-color:var(--rojo);background:#fbe3e3;color:var(--rojo)}
+.opciones label:has(input[value="NA"]:checked){border-color:var(--gris);background:#e9edf2;color:var(--gris)}
+.item.respondido{background:#fbfdff}
+.item.falta{background:#fffaf2}
+
+/* Formularios */
+.campo{width:100%;min-height:48px;padding:.6rem;border:1px solid var(--borde);
+     border-radius:var(--radio);font:inherit;background:var(--papel)}
+textarea.campo{min-height:80px}
+label.etq{display:block;font-weight:600;font-size:.88rem;margin:.6rem 0 .25rem}
+input[type=file]{width:100%;padding:.6rem;border:2px dashed var(--borde);border-radius:var(--radio);background:var(--papel)}
+/* Selección múltiple de ítems que una fotografía respalda */
+.casillas ul{list-style:none;margin:0;padding:0;display:grid;gap:.3rem}
+.casillas li{margin:0}
+.casillas label{display:flex;gap:.6rem;align-items:flex-start;min-height:44px;
+  padding:.5rem .65rem;border:1px solid var(--borde);border-radius:var(--radio);
+  background:var(--papel);font-size:.9rem;cursor:pointer;line-height:1.35}
+.casillas label:has(input:checked){border-color:var(--azul);background:#e3ecf8}
+.casillas input{width:22px;height:22px;flex:none;margin:0;accent-color:var(--azul)}
+/* Rejilla de campos numéricos de la hoja de mediciones */
+.rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.6rem}
+.rejilla .etq{margin-top:0}
+input.motivo{font-size:.92rem}
+
+/* Evidencia */
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem}
+.galeria figure{margin:0;border:1px solid var(--borde);border-radius:var(--radio);overflow:hidden;background:var(--papel)}
+.galeria img{width:100%;height:120px;object-fit:cover;display:block;background:#dde3ea}
+.galeria figcaption{padding:.4rem .5rem;font-size:.72rem;color:var(--gris);line-height:1.35}
+.hash{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:.7rem;color:var(--gris)}
+
+/* Avisos */
+.aviso{padding:.75rem 1rem;border-radius:var(--radio);margin-bottom:.7rem;font-size:.93rem;border:1px solid}
+.aviso.success{background:#e2f3e8;border-color:#b6ddc4;color:#14532d}
+.aviso.error{background:#fbe3e3;border-color:#efc0c0;color:#7f1d1d}
+.aviso.info,.aviso.warning{background:#fdf0dc;border-color:#ecd3a8;color:#713f12}
+.nota{font-size:.85rem;color:var(--gris);background:#eef2f7;border-left:4px solid var(--azul-claro);
+     padding:.6rem .8rem;border-radius:0 6px 6px 0;margin:.6rem 0}
+.vacio{text-align:center;color:var(--gris);padding:2rem 1rem;font-size:.95rem}
+
+/* Historial de correcciones */
+.cadena{font-size:.8rem;color:var(--gris);margin-top:.4rem;padding-left:.8rem;
+     border-left:3px solid var(--borde)}
+.cadena s{color:#9aa5b1}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.7rem;margin-bottom:1rem}
+.kpi{background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);padding:.9rem}
+.kpi .valor{font-size:1.9rem;font-weight:700;color:var(--azul);line-height:1}
+.kpi .etiqueta{font-size:.78rem;color:var(--gris);text-transform:uppercase;letter-spacing:.04em;margin-top:.3rem}
+
+/* Aviso de estado de red (RNF-01) */
+.aviso-red{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:.7rem 1rem;
+  text-align:center;font-size:.9rem;font-weight:600;color:#fff;background:var(--gris);
+  padding-bottom:calc(.7rem + env(safe-area-inset-bottom,0px))}
+.aviso-red[data-estado="offline"]{background:var(--ambar)}
+.aviso-red[data-estado="guardado"]{background:var(--azul)}
+.aviso-red[data-estado="sincronizando"]{background:var(--azul-claro)}
+.aviso-red[data-estado="ok"]{background:var(--verde)}
+.aviso-red[data-estado="error"]{background:var(--rojo)}
+[hidden]{display:none!important}
+
+@media print{
+  header.barra,.btn,.no-imprimir{display:none!important}
+  body{background:#fff}
+  main{max-width:none;padding:0}
+  .tarjeta{break-inside:avoid;border-color:#999}
+}
+</style>
+</head>
+<body>
+{% if user.is_authenticated %}
+<header class="barra">
+  <div class="marca">IMELSE <span>·</span> SIG</div>
+  <nav>
+    {% if user.es_tecnico %}<a href="{% url 'visitas' %}">Mis visitas</a>{% endif %}
+    {% if user.es_administracion or user.es_gerencia %}
+      <a href="{% url 'panel' %}">Panel</a>
+      <a href="{% url 'ciclos' %}">Ciclos</a>
+      <a href="{% url 'visitas' %}">Visitas</a>
+      <a href="{% url 'materiales' %}">Materiales</a>
+      <a href="{% url 'consultas_sql' %}">Consultas</a>
+      <a href="{% url 'libro_anual' %}">Planilla</a>
+      <a href="{% url 'locales' %}">Locales</a>
+    {% endif %}
+    <span class="quien">{{ user.get_full_name|default:user.username }} · {{ user.get_rol_display }}</span>
+    <form method="post" action="{% url 'logout' %}" style="margin:0">{% csrf_token %}
+      <button class="btn chico sec" type="submit">Salir</button>
+    </form>
+  </nav>
+</header>
+{% endif %}
+<main>
+  {% if messages %}
+    {% for m in messages %}<div class="aviso {{ m.tags }}">{{ m }}</div>{% endfor %}
+  {% endif %}
+  {% block contenido %}{% endblock %}
+</main>
+{% if user.is_authenticated %}<script src="{% static 'core/offline.js' %}" defer></script>{% endif %}
+</body>
+</html>
