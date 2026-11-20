@@ -132,7 +132,7 @@ assets/
 | Pillow | 11.3.0 |
 | reportlab | 5.0.1 |
 | openpyxl | 3.1.5 |
-| n8n | 1.x, ejecutado con `npx n8n` |
+	n8n · 1.x, se levanta con npx n8n
 
 ---
 
